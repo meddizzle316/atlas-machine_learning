@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import numpy as np
+
 # def matrix_dimensions(matrix):
 #     if isinstance(matrix, list):
 #         if matrix and isinstance(matrix[0], list):
@@ -9,16 +9,17 @@ import numpy as np
 #     else:
 #         return 0
 
-# def matrix_shape(matrix):
-#     result = []
-#     number_of_dimensions = matrix_dimensions(matrix)
-#     for i in range(number_of_dimensions):
-#         matrix
-
-
 def matrix_shape(matrix):
-    numpy_matrix = np.array(matrix)
-    return numpy_matrix.shape
+    result = []
+    # number_of_dimensions = matrix_dimensions(matrix)
+    for i in matrix:
+        result.append(len(matrix))
+    return result
+
+
+# def matrix_shape(matrix):
+#     numpy_matrix = np.array(matrix)
+#     return numpy_matrix.shape
 
 
 
