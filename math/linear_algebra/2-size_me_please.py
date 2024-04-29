@@ -11,9 +11,12 @@ def matrix_shape(matrix):
             for x, array in enumerate(dimension):
                 if x > second:
                     second = x
-                for y, list in enumerate(array):
-                    if y > third:
-                        third = y
+                try:
+                    for y, list in enumerate(array):
+                        if y > third:
+                            third = y
+                except TypeError:
+                    pass
         except TypeError:
             pass
 
