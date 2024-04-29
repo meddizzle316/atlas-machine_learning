@@ -7,15 +7,15 @@ def matrix_shape(matrix):
     third: int = 0
     for i, dimension in enumerate(matrix):
         first += 1
-        for x, array in enumerate(dimension):
-            if x > second:
-                second = x
-            try:
+        try:
+            for x, array in enumerate(dimension):
+                if x > second:
+                    second = x
                 for y, list in enumerate(array):
                     if y > third:
                         third = y
-            except TypeError:
-                pass
+        except TypeError:
+            pass
 
     result.append(first)
     if second > 0:
