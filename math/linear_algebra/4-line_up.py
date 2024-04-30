@@ -4,7 +4,7 @@
 
 def add_arrays(arr1, arr2):
     """function that adds 1d arrays of same length"""
-    if len(arr1) != len(arr2):
+    if len(arr1) != len(arr2) or len(arr1) == 0:
         return None
     new_list = []
     i = 0
