@@ -44,28 +44,18 @@ def cat_matrices2D(mat1, mat2, axis=0):
     new_matrix = []
     # if matrix_shape(mat1)[0] != matrix_shape(mat2)[0]:
     #     return None
-    # if len(mat1[0]) == 0 or len(mat2[0]) == 0:
-    #     return None
-    try:
-        if len(mat1[0]) != len(mat2):
-            # print("dimension match check failed")
-            # print(len(mat1[1]))
-            # print(len(mat2))
-            # print(mat2)
-            return None
-    except IndexError:
-        pass
+    if len(mat1[0]) == 0 or len(mat2[0]) == 0:
+        return None
     if axis == 0:
         new_matrix = mat1 + mat2
     elif axis == 1:
         i: int = 0
         while i < matrix_shape(mat2)[1] and i < matrix_shape(mat1)[1]:
             list = []
-            print("while loop triggered")
             try:
                 list = mat1[i] + mat2[i]
                 new_matrix.append(list)
             except IndexError:
-                continue
+                return None
             i += 1
     return new_matrix
