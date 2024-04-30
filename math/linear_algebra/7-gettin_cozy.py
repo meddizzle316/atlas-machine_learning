@@ -45,14 +45,17 @@ def cat_matrices2D(mat1, mat2, axis=0):
     # if matrix_shape(mat1)[0] != matrix_shape(mat2)[0]:
     #     return None
     if len(mat1[0]) == 0 or len(mat2[0]) == 0:
-        return [[]]
+        return None
     if axis == 0:
         new_matrix = mat1 + mat2
     elif axis == 1:
         i: int = 0
         while i < matrix_shape(mat2)[1] and i < matrix_shape(mat1)[1]:
             list = []
-            list = mat1[i] + mat2[i]
-            new_matrix.append(list)
+            try:
+                list = mat1[i] + mat2[i]
+                new_matrix.append(list)
+            except IndexError:
+                return None
             i += 1
     return new_matrix
