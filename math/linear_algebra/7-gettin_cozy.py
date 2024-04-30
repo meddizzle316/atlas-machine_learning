@@ -48,9 +48,9 @@ def cat_matrices2D(mat1, mat2, axis=0):
         return [[]]
     if axis == 0:
         new_matrix = mat1 + mat2
-    else:
+    elif axis == 1:
         i: int = 0
-        while i <= matrix_shape(mat2)[1] and i <= matrix_shape(mat1)[1]:
+        while i < matrix_shape(mat2)[1] and i < matrix_shape(mat1)[1]:
             list = []
             list = mat1[i] + mat2[i]
             new_matrix.append(list)
