@@ -51,6 +51,7 @@ def cat_matrices2D(mat1, mat2, axis=0):
     else:
         i: int = 0
         while i <= matrix_shape(mat2)[1] and i <= matrix_shape(mat1)[1]:
+            list = []
             list = mat1[i] + mat2[i]
             new_matrix.append(list)
             i += 1
