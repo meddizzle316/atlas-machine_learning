@@ -44,8 +44,8 @@ def cat_matrices2D(mat1, mat2, axis=0):
     new_matrix = []
     # if matrix_shape(mat1)[0] != matrix_shape(mat2)[0]:
     #     return None
-    if len(mat1[0]) == 0 or len(mat2[0]) == 0:
-        return None
+    # if len(mat1[0]) == 0 or len(mat2[0]) == 0:
+    #     return None
     try:
         if len(mat1[1]) != len(mat2[0]):
             return None
