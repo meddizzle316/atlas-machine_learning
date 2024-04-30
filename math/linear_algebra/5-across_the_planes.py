@@ -44,7 +44,7 @@ def add_matrices2D(mat1, mat2):
     if matrix_shape(mat1) != matrix_shape(mat2):
         return None
     if len(mat1[0]) == 0:
-        return [[]]
+        return []
     i: int = 0
     new_matrix = []
     while i < matrix_shape(mat1)[0]:
