@@ -41,7 +41,7 @@ def matrix_shape(matrix):
 
 def add_matrices2D(mat1, mat2):
     """function that adds 2 2d matrices together"""
-    if matrix_shape(mat1) != matrix_shape(mat2):
+    if matrix_shape(mat1) != matrix_shape(mat2) or len(mat1) == 0:
         return None
     i: int = 0
     new_matrix = []
