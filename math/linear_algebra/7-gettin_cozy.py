@@ -46,6 +46,8 @@ def cat_matrices2D(mat1, mat2, axis=0):
     #     return None
     if len(mat1[0]) == 0 or len(mat2[0]) == 0:
         return None
+    if len(matrix_shape(mat1)) != len(matrix_shape(mat2)):
+        return None
     if axis == 0:
         new_matrix = mat1 + mat2
     elif axis == 1:
