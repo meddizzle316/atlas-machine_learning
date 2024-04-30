@@ -47,7 +47,7 @@ def cat_matrices2D(mat1, mat2, axis=0):
     # if len(mat1[0]) == 0 or len(mat2[0]) == 0:
     #     return None
     try:
-        if len(mat1[1]) != len(mat2):
+        if len(mat1[0]) != len(mat2):
             # print("dimension match check failed")
             # print(len(mat1[1]))
             # print(len(mat2))
