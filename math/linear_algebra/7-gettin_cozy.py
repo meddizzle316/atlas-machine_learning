@@ -60,6 +60,7 @@ def cat_matrices2D(mat1, mat2, axis=0):
             try:
                 list = mat1[i] + mat2[i]
                 new_matrix.append(list)
+                print(new_matrix)
             except IndexError:
                 return None
             i += 1
