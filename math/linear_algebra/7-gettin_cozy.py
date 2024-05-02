@@ -53,6 +53,8 @@ def cat_matrices2D(mat1, mat2, axis=0):
         return None
     if not mat1:
         return None
+    if not mat1[0] or not mat2[0]:
+        return None
     if axis == 0:
         new_matrix = mat1 + mat2
     elif axis == 1:
