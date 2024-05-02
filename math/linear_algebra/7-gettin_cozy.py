@@ -41,19 +41,12 @@ def matrix_shape(matrix):
 
 def cat_matrices2D(mat1, mat2, axis=0):
     """concatenates two 2d matrices with optional axis"""
+    """couldn't get dimension or empty matrix check"""
     new_matrix = []
 
-    if mat1 == [[]] or mat2 == [[]]:
+    if axis == 0 and len(mat1) != len(mat2):
         return None
-    if len(mat1) == 0 or len(mat2) == 0:
-        return None
-    if (len(mat1[0]) == 0) or (len(mat2[0]) == 0):
-        return None
-    if mat1 == [] or mat2 == []:
-        return None
-    if not mat1:
-        return None
-    if not mat1[0] or not mat2[0]:
+    elif axis == 1 and len(mat1[0]) != len(mat2[0]):
         return None
     if axis == 0:
         new_matrix = mat1 + mat2
