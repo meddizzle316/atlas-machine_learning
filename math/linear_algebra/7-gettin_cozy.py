@@ -43,13 +43,13 @@ def cat_matrices2D(mat1, mat2, axis=0):
     """concatenates two 2d matrices with optional axis"""
     new_matrix = []
 
-    if mat1 == [[]]:
+    if mat1 == [[]] or mat2 == [[]]:
         return None
-    if len(mat1) == 0:
+    if len(mat1) == 0 or len(mat2) == 0:
         return None
-    if (len(mat1[0]) == 0):
+    if (len(mat1[0]) == 0) or (len(mat2[0]) == 0):
         return None
-    if mat1 == []:
+    if mat1 == [] or mat2 == []:
         return None
     if not mat1:
         return None
