@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
+"""does 5 graphs in one"""
 import numpy as np
 import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 
-def all_in_one():
 
+def all_in_one():
+    """plots five graphs in one"""
     y0 = np.arange(0, 11) ** 3
 
     mean = [69, 0]
