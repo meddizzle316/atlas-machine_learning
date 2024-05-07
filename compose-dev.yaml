@@ -3,10 +3,15 @@ services:
     entrypoint:
     - sleep
     - infinity
-    image: docker/dev-environments-default:stable-1
+    image: ubuntu
+    build: 
+      context: ./.devcontainer
+      dockerfile: Dockerfile
     init: true
     volumes:
     - type: bind
       source: /var/run/docker.sock
       target: /var/run/docker.sock
+
+
 
