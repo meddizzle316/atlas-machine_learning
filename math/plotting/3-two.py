@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
+"""does both Ra-226 and C-14"""
 import numpy as np
 import matplotlib.pyplot as plt
 
-def two():
 
+def two():
+    """plots C-14 compared to Ra-226"""
     x = np.arange(0, 21000, 1000)
     r = np.log(0.5)
     t1 = 5730
@@ -21,4 +23,3 @@ def two():
     plt.plot(x, y2, color='green', label='Ra-226')
     plt.legend()
     plt.show()
-    
