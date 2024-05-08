@@ -9,7 +9,7 @@ def poly_derivative(poly):
     all_int = all(isinstance(item, (int)) for item in poly)
     if len(poly) < 1 or not all_int:
         return None
-    if len(poly) == 1 or poly[1] == 0:
+    if len(poly) == 1:
         return [0]
     while i < len(poly):
         new_list.append(poly[i] * i)
