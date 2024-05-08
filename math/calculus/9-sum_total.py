@@ -7,7 +7,9 @@ def summation_i_squared(n):
     """squares and adds"""
     try:
         test_n = int(n)
-    except ValueError:
+        if n == 0:
+            return None
+    except Exception:
         return None
     list = np.linspace(1, n, n)
     return (int(sum(list ** 2)))
