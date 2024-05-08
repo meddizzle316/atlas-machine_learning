@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+"""does summation notation operations"""
 import numpy as np
 import math
-"""does summation notation operations"""
+
 
 
 def summation_i_squared(n):
