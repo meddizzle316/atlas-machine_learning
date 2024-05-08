@@ -4,7 +4,4 @@
 
 def summation_i_squared(n):
     """squares and adds"""
-    if n == 1:
-        return 1
-    else:
-        return (n ** 2) + summation_i_squared(n-1)
+    return sum(n ** 2 for n in range(1, n + 1))
