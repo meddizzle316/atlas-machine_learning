@@ -8,10 +8,9 @@ class Poisson:
         self.data = data
         if data != None:
             total_events = sum(data)
-            if lambtha == 1.:
-                lambtha_value = total_events / len(data)
-                self.lambtha = lambtha_value
-        if lambtha != 1.:
-            self.lambtha = lambtha
+            lambtha_value = total_events / len(data)
+            self.lambtha = float(lambtha_value)
+        else:
+            self.lambtha = float(lambtha)
         
         
