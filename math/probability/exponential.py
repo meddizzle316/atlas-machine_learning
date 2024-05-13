@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """class for exponential distribution"""
 
+
 class Exponential:
     """class for exponential distribution"""
     def __init__(self, data=None, lambtha=1.):
@@ -13,5 +14,5 @@ class Exponential:
             self.lambtha = float((1 / ((sum(data)) / (len(data)))))
         else:
             if lambtha < 0:
-                return 0
+                raise ValueError("lambtha must be a positive value")
             self.lambtha = float(lambtha)
