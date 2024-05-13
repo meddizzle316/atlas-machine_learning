@@ -21,13 +21,13 @@ class Poisson:
         self.e = 2.7182818285
         self.pi = 3.1415926536
 
-    def pmf(self, k):
+    def pmf(s, k):
         """gets the probability mass function"""
         k = int(k)
         if k < 0:
             return 0
-        return (((self.e ** (-self.lambtha)) * (self.lambtha ** k)) / self.factorial(k))
-    
+        return (((s.e ** (-s.lambtha)) * (s.lambtha ** k)) / s.factorial(k))
+
     def factorial(self, n):
         """gets the factorial of a number"""
         if n == 0 or n == 1:
