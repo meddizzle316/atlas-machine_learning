@@ -18,9 +18,3 @@ class Exponential:
             self.lambtha = float(lambtha)
         self.e = 2.7182818285
         self.pi = 3.1415926536
-
-    def pdf(self, x):
-        """gets pdf for given time period"""
-        if x < 0:
-            return 0
-        return (self.lambtha * (self.e ** ((-self.lambtha) * x)))
