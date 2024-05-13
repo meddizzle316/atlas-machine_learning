@@ -27,7 +27,6 @@ class Normal:
         self.e = 2.7182818285
         self.pi = 3.1415926536
 
-
     def z_score(self, x):
         """gets z-score of a given x value"""
         return ((x - self.mean) / self.stddev)
@@ -35,9 +34,9 @@ class Normal:
     def x_value(self, z):
         """gets z_score of given z value"""
         return (self.stddev * z) + self.mean
-    
-    def pdf(self, x):
+
+    def pdf(s, x):
         """gets pdf for given x"""
-        first_factor = 1 / (((self.stddev ** 2) * (2 * self.pi)) ** 0.5)
-        second_factor = self.e ** ((-(x - self.mean) ** 2) / ((2 * (self.stddev ** 2))))
+        first_factor = 1 / (((s.stddev ** 2) * (2 * s.pi)) ** 0.5)
+        second_factor = s.e ** ((-(x - s.mean) ** 2) / ((2 * (s.stddev ** 2))))
         return (first_factor * second_factor)
