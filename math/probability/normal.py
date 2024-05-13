@@ -15,7 +15,7 @@ class Normal:
             self.stddev = 0
             temp = 0
             for i in data:
-               temp += (i - self.mean) ** 2
+                temp += (i - self.mean) ** 2
             temp = temp / (len(data))
             temp = temp ** 0.5
             self.stddev = temp
