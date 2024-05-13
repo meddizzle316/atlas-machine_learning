@@ -28,15 +28,6 @@ class Poisson:
             return 0
         return (((s.e ** (-s.lambtha)) * (s.lambtha ** k)) / s.factorial(k))
 
-    def cdf(self, k):
-        if k < 0:
-            return 0
-        k = int(k)
-        cdf = 0
-        for k in range(1, k + 1):
-            cdf += self.pmf(k)
-        return cdf
-
     def factorial(self, n):
         """gets the factorial of a number"""
         if n == 0 or n == 1:
