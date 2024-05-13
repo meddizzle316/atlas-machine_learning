@@ -18,17 +18,3 @@ class Poisson:
             if lambtha <= 0:
                 raise ValueError("lambtha must be a positive value")
             self.lambtha = float(lambtha)
-        self.e = 2.7182818285
-        self.pi = 3.1415926536
-
-    def pmf(self, k):
-        """gets the probability mass function"""
-        k = int(k)
-        return (((self.e ** (-self.lambtha)) * (self.lambtha ** k)) / self.factorial(k))
-    
-    def factorial(self, n):
-        """gets the factorial of a number"""
-        if n == 0 or n == 1:
-            return 1
-        else:
-            return n * self.factorial(n - 1)
