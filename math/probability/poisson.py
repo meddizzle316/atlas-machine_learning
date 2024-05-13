@@ -7,10 +7,10 @@ class Poisson:
     def __init__(self, data=None, lambtha=1.):
         self.data = data
         if data != None:
-            if len(data) < 2:
-                raise ValueError("data must contain multiple values")
             if not isinstance(data, list):
                 raise TypeError("data must be a list")
+            if len(data) < 2:
+                raise ValueError("data must contain multiple values")
             total_events = sum(data)
             lambtha_value = total_events / len(data)
             self.lambtha = float(lambtha_value)
