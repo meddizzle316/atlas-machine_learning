@@ -42,11 +42,11 @@ class Normal:
         return (first_factor * second_factor)
     
     def erf(self, x):
-        """approximate error function"""
-        """being completely transparent here, I got this from Phind"""
-        return 1 - (1 / (1 + x**2)) * (1 - (1 / (1 + x**2)))
+        final_product = 2 / (self.pi ** 0.5)
+        second_product = (x - (1/3 * (x**3)) + (1/10 * (x**5)) - (1/42 * (x**7)) + (1/216 * (x ** 9)) )
+        return (final_product * second_product)
 
     def cdf(self, x):
         """Cumulative distribution function for standard normal."""
-        z = (x - self.mean) / (self.stddev * (2.0 ** 0.5))
-        return 0.5 * (1 + (self.erf(z)))
+        z = (self.mean - x) / (self.stddev * (2.0 ** 0.5))
+        return 0.5 * ((1 - self.erf(z)))
