@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """class for normal distribution"""
-
+from statistics import NormalDist
 
 class Normal:
     """class for normal distribution"""
@@ -47,8 +47,6 @@ class Normal:
         return 1 - (1 / (1 + x**2)) * (1 - (1 / (1 + x**2)))
 
     def cdf(self, x):
-        """gets the cdf of given x"""
-        """the integral of the pdf function"""
-        """also got this from Phind"""
-        return (1 + self.erf(x / (2 ** 0.5))) / 2
-
+        """Cumulative distribution function for standard normal."""
+        z = (x - self.mean) / (self.stddev * (2.0 ** 0.5))
+        return 0.5 * (1 + (self.erf(z)))
