@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """class for normal distribution"""
-from statistics import NormalDist
+
 
 class Normal:
     """class for normal distribution"""
