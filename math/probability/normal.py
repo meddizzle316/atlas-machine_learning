@@ -40,3 +40,15 @@ class Normal:
         first_factor = 1 / (((s.stddev ** 2) * (2 * s.pi)) ** 0.5)
         second_factor = s.e ** ((-(x - s.mean) ** 2) / ((2 * (s.stddev ** 2))))
         return (first_factor * second_factor)
+    
+    def erf(self, x):
+        """approximate error function"""
+        """being completely transparent here, I got this from Phind"""
+        return 1 - (1 / (1 + x**2)) * (1 - (1 / (1 + x**2)))
+
+    def cdf(self, x):
+        """gets the cdf of given x"""
+        """the integral of the pdf function"""
+        """also got this from Phind"""
+        return (1 + self.erf(x / (2 ** 0.5))) / 2
+
