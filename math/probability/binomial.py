@@ -32,7 +32,7 @@ class Binomial:
             # recalculating p
             self.p = float(self.mean / self.n)
         else:
-            if p < 0 or p >= 1:
+            if p <= 0 or p >= 1:
                 raise ValueError("p must be greater than 0 and less than 1")
             if n <= 0:
                 raise ValueError("n must be a positive value")
