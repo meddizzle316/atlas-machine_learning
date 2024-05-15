@@ -47,7 +47,7 @@ class Binomial:
         if n == 0 or n == 1:
             return 1
         else:
-            return n * self.factorial(n - 1)
+            return n * self.f(n - 1)
 
     def pmf(self, k):
         """probability mass function of binomial"""
