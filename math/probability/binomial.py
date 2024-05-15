@@ -41,3 +41,16 @@ class Binomial:
             self.n = int(n)
         self.e = 2.7182818285
         self.pi = 3.1415926536
+
+    def f(self, n):
+        """gets the factorial of a number"""
+        if n == 0 or n == 1:
+            return 1
+        else:
+            return n * self.factorial(n - 1)
+
+    def pmf(self, k):
+        """probability mass function of binomial"""
+        first_factor = self.f(self.n) / (self.f(self.n - k) * (self.f(k)))
+        second_factor = (self.p ** k) * ((1 - self.p) ** (self.n - k))
+        return first_factor * second_factor
