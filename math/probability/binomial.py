@@ -59,6 +59,9 @@ class Binomial:
 
     def pmf(self, k):
         """probability mass function of binomial"""
+        if k < 0:
+            return 0
+        k = int(k)
         first_factor = self.f(self.n) / (self.f(self.n - k) * (self.f(k)))
         second_factor = (self.p ** k) * ((1 - self.p) ** (self.n - k))
         return first_factor * second_factor
