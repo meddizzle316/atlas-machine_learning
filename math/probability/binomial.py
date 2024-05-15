@@ -44,13 +44,6 @@ class Binomial:
 
     def f(self, n):
         """gets the factorial of a number"""
-        # result = 1
-        # # int_n = int(n)
-        # i = 1.0
-        # while i < n + 1.0:
-        #     result *= i
-        #     i += 1
-        # return result
         result = 1
         int_n = int(n)
         for i in range(1, int_n + 1):
