@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """a class for binomial distribution"""
 
+
 class Binomial:
     """class for binomial distribution"""
     def __init__(self, data=None, n=1, p=0.5):
@@ -11,7 +12,7 @@ class Binomial:
             if len(data) < 2:
                 raise ValueError("data must contain multiple values")
             self.mean = sum(data) / len(data)
-            
+
             # took standard deviation from normal class
             self.stddev = 0
             temp = 0
@@ -20,7 +21,7 @@ class Binomial:
             temp = temp / (len(data))
             temp = temp ** 0.5
             self.stddev = temp
-            #getting variance from stddev
+            # getting variance from stddev
             self.var = self.stddev ** 2
 
             # getting p from inverted m = np formula
