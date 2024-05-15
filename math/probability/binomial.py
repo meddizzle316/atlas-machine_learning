@@ -58,3 +58,13 @@ class Binomial:
         first_factor = self.f(self.n) / (self.f(self.n - k) * (self.f(k)))
         second_factor = (self.p ** k) * ((1 - self.p) ** (self.n - k))
         return first_factor * second_factor
+
+    def cdf(self, k):
+        """returns cdf given k of successes"""
+        if k < 0:
+            return 0
+        k = int(k)
+        cdf = 0
+        for k in range(k + 1):
+            cdf += self.pmf(k)
+        return cdf
