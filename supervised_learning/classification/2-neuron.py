@@ -39,4 +39,5 @@ class Neuron:
         return self.__A
 
     def activation(self, x):
+        """sigmoid activation function"""
         return 1 / (1 + np.exp(-x))
