@@ -4,7 +4,8 @@ import numpy as np
 Binomial = __import__('binomial').Binomial
 
 np.random.seed(0)
-data = np.random.binomial(50, 0.6, 100).tolist()
+data = np.random.binomial(50, 0.5, 100).tolist()
+print(data)
 b1 = Binomial(data)
 
 print('n:', b1.n, "p:", b1.p)
