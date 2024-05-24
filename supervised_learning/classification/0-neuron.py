@@ -9,7 +9,7 @@ class Neuron:
         """init"""
         if not isinstance(nx, int):
             raise TypeError("nx must be an integer")
-        if nx <= 1:
+        if nx < 1:
             raise ValueError("nx must be a positive integer")
         self.W = np.random.normal(np.zeros((1, 784)))
         self.b = 0
