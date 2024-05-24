@@ -45,3 +45,10 @@ class Neuron:
     def activation(self, x):
         """sigmoid activation function"""
         return 1 / (1 + np.exp(-x))
+
+    def cost(self, Y, A):
+        """logistic regression binary cost function"""
+        """Y is target or correct values"""
+        """A is real values or activated output of the neuron"""
+        return np.max(-np.mean(Y * np.log(A)) + (1.000000001 - Y) * np.log(1.0000001 - A))
+        # for the life of me, I couldn't find the -np.mean bit. I guess the -1/m means -mean?
