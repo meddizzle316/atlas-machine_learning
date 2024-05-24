@@ -50,5 +50,5 @@ class Neuron:
         """logistic regression binary cost function"""
         """Y is target or correct values"""
         """A is real values or activated output of the neuron"""
-        return np.mean(-(np.mean(Y * np.log(A)) + (1.0000001 - Y) * np.log(1.0000001 - A)))
+        return np.mean(-(np.mean(Y * np.log(A)) + (1.000000001 - Y) * np.log(1.000000001 - A)))
         # the life of me, I couldn't find the -np.mean bit. I guess the -1/m means -mean?
