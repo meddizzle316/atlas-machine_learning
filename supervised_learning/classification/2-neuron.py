@@ -35,7 +35,7 @@ class Neuron:
     def forward_prop(self, X):
         """func for forward prop"""
         """updates __A"""
-        self.__A = self.activation(np.dot(X[0], X[1]))
+        self.__A = self.activation(np.dot(self.W, X))
         return self.__A
 
     def activation(self, x):
