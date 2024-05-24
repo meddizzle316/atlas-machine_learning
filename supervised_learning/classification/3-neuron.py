@@ -39,7 +39,7 @@ class Neuron:
         # In the model I looked at, the "bias" was just a number
         # added to the input layer
         # but I guess the bias is, in this model
-        # included for all layers? 
+        # included all layers? 
         return self.__A
 
     def activation(self, x):
