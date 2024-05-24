@@ -51,4 +51,4 @@ class Neuron:
         """Y is target or correct values"""
         """A is real values or activated output of the neuron"""
         return np.max(-np.mean(Y * np.log(A)) + (1.000000001 - Y) * np.log(1.0000001 - A))
-        # for the life of me, I couldn't find the -np.mean bit. I guess the -1/m means -mean?
+        # the life of me, I couldn't find the -np.mean bit. I guess the -1/m means -mean?
