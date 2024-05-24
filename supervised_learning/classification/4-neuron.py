@@ -52,5 +52,11 @@ class Neuron:
         """A is real values or activated output of the neuron"""
         """this cost function is working but only has up to 7"""
         """or so decimal places the same as the checkers"""
-        return np.mean(-(np.mean(Y * np.log(A)) + ((1 - Y) * np.log(1.0000001 - A))))
+        return np.mean(-(np.mean(Y * np.log(A)) + ((1.0000001 - Y) * np.log(1.0000001 - A))))
         # the life of me, I couldn't find the -np.mean bit. -1/m -mean?
+
+    def evaluate(self, X, Y):
+        """evaluates the neuron's predictions"""
+        """Y: target labels"""
+        """X: input data"""
+        return (self.forward_prop(X), self.cost(Y, self.forward_prop(X)))
