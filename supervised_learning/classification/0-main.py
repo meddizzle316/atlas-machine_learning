@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""I do have some notes about the clarity"""
+"""it's not clear that nx should be the dimensions of W"""
+
 
 import numpy as np
 
