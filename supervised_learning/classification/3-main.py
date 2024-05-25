@@ -10,8 +10,6 @@ X = X_3D.reshape((X_3D.shape[0], -1)).T
 
 np.random.seed(0)
 neuron = Neuron(X.shape[0])
-print(np.median(X))
-print(type(X), X.dtype)
 A = neuron.forward_prop(X)
 cost = neuron.cost(Y, A)
 print(cost)
