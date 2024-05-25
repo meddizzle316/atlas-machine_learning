@@ -61,6 +61,7 @@ class Neuron:
         """evaluates the neuron's predictions"""
         """Y: target labels"""
         """X: input data"""
-        diff = (self.forward_prop(X) - Y)
+        diff = self.activation(np.dot(self.W, X) + self.__b)
         new_diff = np.where(diff >= 0.5, 1, 0)
+        # final_diff = (new_diff - Y)
         return (new_diff), self.cost(Y, self.forward_prop(X))

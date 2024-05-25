@@ -11,5 +11,7 @@ X = X_3D.reshape((X_3D.shape[0], -1)).T
 np.random.seed(0)
 neuron = Neuron(X.shape[0])
 A, cost = neuron.evaluate(X, Y)
+print(Y)
+print(X)
 print(A)
 print(cost)
