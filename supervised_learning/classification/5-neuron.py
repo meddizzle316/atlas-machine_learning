@@ -65,3 +65,28 @@ class Neuron:
         # I guess prediction just means the dotprod plust bias?
         new_diff = np.where(diff >= 0.5, 1, 0)
         return (new_diff), self.cost(Y, self.forward_prop(X))
+
+    def gradient_descent(self, X, Y, A, alpha=0.05):
+        """
+        calculates one pass of gradient descent
+        on the neuron
+        X: input data
+        Y: target labels [1, 0] in 1, 0 format
+        A: Activated output of neuron
+        alpha: learning rate
+        updates W and b
+        No return
+        """
+        dz = A - Y
+        db = dz
+        dw = np.dot(dz, X.T)
+        self.__W = self.W - (alpha * dw) 
+        self.__b = np.mean(self.b - (alpha * db))
+
+    def activationDerivative(self, Y, A):
+        """
+        the derivative of the Cross Entropy I think
+        Y: target labels
+        A: Activated output of neuron
+        """
+        return (-Y/A) + ((1- Y)/(1-A))
