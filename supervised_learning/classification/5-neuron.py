@@ -77,9 +77,17 @@ class Neuron:
         updates W and b
         No return
         """
+
+        # getting the number of training examples (to represent m)
+        m = Y.shape[1]
+        # calculating the gradient of the logistic cost function
         dz = A - Y
-        db = dz
-        dw = np.dot(dz, X.T)
+
+        # gradient of the cost function with respect to the biases
+        db = np.sum(dz) / m
+
+        # getting the gradient of the cost function with respect to the weights
+        dw = np.dot(dz, X.T) / m
         self.__W = self.W - (alpha * dw) 
         self.__b = np.mean(self.b - (alpha * db))
 
