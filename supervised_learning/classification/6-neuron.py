@@ -82,14 +82,11 @@ class Neuron:
         m = X.shape[1]
 
         # calculating the gradient of the logistic cost function
-        # why is the Activation of the neuron important to this function?
         dz = A - Y
 
         # gradient of the cost function with respect to the biases
         db = np.sum(dz) / m
         # getting the gradient of the cost function with respect to the weights
-        # transforming X because dz is 12665 size because of A - Y operation
-        # also because X.T is the "training" data
         dw = np.dot(dz, X.T) / m
 
         # updating __W and __b
