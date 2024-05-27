@@ -90,7 +90,6 @@ class Neuron:
         # getting the gradient of the cost function with respect to the weights
         # transforming X because dz is 12665 size because of A - Y operation
         # also because X.T is the "training" data 
-
         dw = np.dot(dz, X.T) / m
 
         # updating __W and __b
@@ -104,3 +103,20 @@ class Neuron:
         A: Activated output of neuron
         """
         return (-Y / A) + ((1 - Y) / (1 - A))
+
+    def train(self, X, Y, iterations=5000, alpha=0.05):
+        """trains the neuron"""
+        if not isinstance(iterations, int):
+            raise TypeError("iterations must be an integer")
+        if iterations <= 0:
+            raise ValueError("iterations must be a positive integer")
+        if not isinstance(alpha, float):
+            raise TypeError("alpha must be a float")
+        if alpha <= 0:
+            raise ValueError("alpha must be positive")
+        
+        for i in range(iterations):
+            self.__A = self.forward_prop(X)
+            self.gradient_descent(X, Y, self.__A)
+
+        return self.evaluate(X, Y)
