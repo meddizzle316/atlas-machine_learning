@@ -79,16 +79,17 @@ class Neuron:
         """
 
         # getting the number of training examples (to represent m)
-        m = Y.shape[1]
+        m = X.shape[1]
         # calculating the gradient of the logistic cost function
         dz = A - Y
 
         # gradient of the cost function with respect to the biases
         db = np.sum(dz) / m
-
         # getting the gradient of the cost function with respect to the weights
         dw = np.dot(dz, X.T) / m
-        self.__W = self.W - (alpha * dw) 
+
+        # updating __W and __b
+        self.__W = self.W - (alpha * dw)
         self.__b = np.mean(self.b - (alpha * db))
 
     def activationDerivative(self, Y, A):
@@ -97,4 +98,4 @@ class Neuron:
         Y: target labels
         A: Activated output of neuron
         """
-        return (-Y/A) + ((1- Y)/(1-A))
+        return (-Y / A) + ((1 - Y) / (1 - A))
