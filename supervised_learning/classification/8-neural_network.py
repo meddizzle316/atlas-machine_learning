@@ -22,7 +22,7 @@ class NeuralNetwork:
         self.W1 = np.random.normal(np.zeros((nodes, nx)))
 
         # bias -- hidden layer. initial value = 0
-        self.b1 = 0
+        self.b1 = np.zeros((nodes, 1))
 
         # activated output - hidden layer. initial value = 0
         self.A1 = 0
