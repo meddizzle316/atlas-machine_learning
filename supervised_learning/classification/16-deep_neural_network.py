@@ -30,7 +30,7 @@ class DeepNeuralNetwork():
         # setting dimensions and initialization of 2nd to the last lay
         for i in range(1, self.L):
             # initialize using He et al method (mostly the sqrt at the end?)
-            # X: dumb pycode format fix for line 35
+            # X: dumb pycode format fix line 35
             X = np.sqrt(2./lay[i - 1])
             self.weights[f"W{i + 1}"] = np.random.randn(lay[i], lay[i - 1]) * X
             self.weights[f"b{i + 1}"] = np.zeros((lay[i], 1))
