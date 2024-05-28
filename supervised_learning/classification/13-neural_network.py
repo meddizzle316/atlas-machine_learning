@@ -112,7 +112,7 @@ class NeuralNetwork:
         z1 = np.matmul(self.__W1, X) + self.b1
 
         # first layer
-        dz1 = ((self.__W2.T * dz2)) * (self.activationDerivative(z1))
+        dz1 = ((self.__W2.T * dz2)) * (A1 * (1 - A1))
         # dz1 = (np.matmul(self.__W2.T, dz2)) * (A1 * (1 - A1))
         db1 = np.sum(dz1, axis=1, keepdims=True) / m
 
