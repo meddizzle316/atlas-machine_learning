@@ -16,7 +16,7 @@ class DeepNeuralNetwork():
             raise TypeError("layers must be a list of positive integers")
 
         test_array = np.array([layers])
-        if not np.all(test_array > 0):
+        if not np.all(test_array > 0) or len(layers) == 0:
             raise TypeError("layers must be a list of positive integers")
 
         self.L = len(layers)
