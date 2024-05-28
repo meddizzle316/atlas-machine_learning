@@ -100,7 +100,7 @@ class NeuralNetwork:
 
     def gradient_descent(self, X, Y, A1, A2, alpha=0.05):
         """gradient descent with 1 hidden layers"""
-        # getting number of training examples (for m)
+        # getting number of training examples (m)
         m = X.shape[1]
 
         # hidden layer
