@@ -122,7 +122,10 @@ class Neuron:
 
         count:int = 0
         costList = []
+        A, cost = self.evaluate(X, Y)
+        costList.append(cost)
         iterationsList = []
+        iterationsList.append(0)
         for iteration in range(iterations):
             self.__A = self.forward_prop(X)
             self.gradient_descent(X, Y, self.__A, alpha)
