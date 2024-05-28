@@ -76,11 +76,11 @@ class NeuralNetwork:
     def activation(self, x):
         """sigmoid activation function"""
         return 1 / (1 + (np.exp(-x)))
-    
+
     def activationDerivative(self, x):
         """derivative of sigmoid activation function"""
         return np.exp(-x) / (1 + (np.exp(-x))) ** 2
-    
+
     def cost(self, Y, A):
         """calculates cost of model using logistic regression"""
         """Y: target or correct values"""
@@ -118,7 +118,7 @@ class NeuralNetwork:
 
         dw1 = np.matmul(dz1, X.T) / m
 
-        self.__W2 = self.__W2 - (alpha * dw2) 
+        self.__W2 = self.__W2 - (alpha * dw2)
         self.__b2 = self.__b2 - (alpha * db2)
         self.__W1 = self.__W1 - (alpha * dw1)
         self.__b1 = self.__b1 - (alpha * db1)
