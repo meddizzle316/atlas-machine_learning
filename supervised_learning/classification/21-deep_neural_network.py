@@ -98,18 +98,19 @@ class DeepNeuralNetwork():
         dz3 = A3 - Y
         dw3 = np.matmul(dz3, A2.T) / m
         db3 = np.sum(dz3, axis=1, keepdims=True) / m
+        da3 = np.matmul(W3.T, dz3)
 
         # getting derivates of layer 2
 
-        dz2 = np.dot(W3.T, dz3) * (A2 * (1 - A2))
+        dz2 = np.dot(W3.T, dz3) * A2 * (1 - A2)
         dw2 = np.matmul(dz2, A1.T) / m
         db2 = np.sum(dz2, axis=1, keepdims=True) / m
+        da2 = np.matmul(W2.T, dz2)
 
         # attempting the derivatives of layer 1
-        dz1 = (np.dot(W2.T, dz2) * (A1 * (1 - A1)))
+        dz1 = (da2 * A1 * (1 - A1))
         dw1 = np.matmul(dz1, X.T) / m
         db1 = np.sum(dz1, axis=1, keepdims=True) / m 
-
         # update weights dictionary (weights and bias)
 
         self.__weights['W3'] = W3 - (alpha * dw3)
