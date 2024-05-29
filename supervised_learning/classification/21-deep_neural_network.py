@@ -101,7 +101,7 @@ class DeepNeuralNetwork():
 
         # getting derivates of layer 2
 
-        dz2 = np.dot(W3.T * dz3) * (A2 * (1 - A2))
+        dz2 = np.dot(W3.T, dz3) * (A2 * (1 - A2))
         dw2 = np.matmul(dz2, A1.T) / m
         db2 = np.sum(dz2, axis=1, keepdims=True) / m
 
