@@ -8,7 +8,7 @@ def one_hot_encode(Y, classes):
         return None
     if classes < 2 or classes < np.amax(Y):
         return None
-    encoded_data = np.zeros((len(Y), classes))
+    encoded_data = np.zeros((classes, len(Y)))
 
     encoded_data[Y, np.arange(Y.size)] = 1
 
