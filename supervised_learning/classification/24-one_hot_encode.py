@@ -6,7 +6,6 @@ def one_hot_encode(Y, classes):
     """encoding function"""
     encoded_data = np.zeros((len(Y), classes))
 
-    for i, val in enumerate(Y):
-        encoded_data[i, val] = 1
+    encoded_data[Y, np.arange(Y.size)] = 1
 
     return encoded_data
