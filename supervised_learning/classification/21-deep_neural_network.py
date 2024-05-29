@@ -80,42 +80,21 @@ class DeepNeuralNetwork():
         # getting total number of 'examples'
         m = Y.shape[1]
 
-        # retrieving relevant variables from cache and weights
-        W1 = self.__weights['W1']
-        W2 = self.__weights['W2']
-        W3 = self.__weights['W3']
+        
+        for layer in range(self.L, 0, -1):
+            if layer == self.L:
+                a = self.__cache[f"A{layer}"]
+                dz = a - Y
+            else:
+                a = self.__cache[f"A{layer}"]
+                dz = da * a * (1 - a)
+            dw = np.matmul(dz, self.__cache[f"A{layer - 1}"].T) / m
+            db = np.sum(dz, axis=1, keepdims=True) / m
+            da = np.matmul(self.__weights[f"W{layer}"].T, dz)
+        
 
-        b1 = self.__weights['b1']
-        b2 = self.__weights['b2']
-        b3 = self.__weights['b3']
-
-        X = self.__cache['A0']
-        A1 = self.__cache['A1']
-        A2 = self.__cache['A2']
-        A3 = self.__cache['A3']
-        # getting derivatives of layer 3
-
-        dz3 = A3 - Y
-        dw3 = np.matmul(dz3, A2.T) / m
-        db3 = np.sum(dz3, axis=1, keepdims=True) / m
-        da3 = np.matmul(W3.T, dz3)
-
-        # getting derivates of layer 2
-
-        dz2 = np.dot(W3.T, dz3) * A2 * (1 - A2)
-        dw2 = np.matmul(dz2, A1.T) / m
-        db2 = np.sum(dz2, axis=1, keepdims=True) / m
-        da2 = np.matmul(W2.T, dz2)
-
-        # attempting the derivatives of layer 1
-        dz1 = (da2 * A1 * (1 - A1))
-        dw1 = np.matmul(dz1, X.T) / m
-        db1 = np.sum(dz1, axis=1, keepdims=True) / m 
-        # update weights dictionary (weights and bias)
-
-        self.__weights['W3'] = W3 - (alpha * dw3)
-        self.__weights['b3'] = b3 - (alpha * db3)
-        self.__weights['W2'] = W2 - (alpha * dw2)
-        self.__weights['b2'] = b2 - (alpha * db2)
-        self.__weights['W1'] = W1 - (alpha * dw1)
-        self.__weights['b1'] = b1 - (alpha * db1)
+            # update weights dictionary (weights and bias)
+            W = self.__weights[f'W{layer}']
+            b = self.__weights[f'b{layer}']
+            self.__weights[f'W{layer}'] = W - (alpha * dw)
+            self.__weights[f'b{layer}'] = b - (alpha * db)
