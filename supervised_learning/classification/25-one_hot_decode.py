@@ -9,8 +9,10 @@ def one_hot_decode(one_hot):
         return None
     if len(one_hot) < 2:
         return None
+    if one_hot.ndim != 2:
+        return None
     decoded_data = []
-    decoded_data = one_hot.T.nonzero()[1]
+    decoded_data = np.argmax(one_hot, axis=0)
     # decoded_data = np.append(decoded_data, decoded_data[0])
     # decoded_data = np.delete(decoded_data, 0)
     return decoded_data
