@@ -165,6 +165,9 @@ class DeepNeuralNetwork():
 
     def load(filename):
         """loads instance from pickle format file"""
-        with open(filename, 'rb') as file:
-            loaded_data = pickle.load(file)
+        try:
+            with open(filename, 'rb') as file:
+                loaded_data = pickle.load(file)
+        except FileNotFoundError:
+            return None
         return loaded_data
