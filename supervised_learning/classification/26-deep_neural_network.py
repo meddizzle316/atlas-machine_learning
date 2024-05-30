@@ -153,9 +153,15 @@ class DeepNeuralNetwork():
 
     def save(self, filename):
         """saves instance to pickle format file"""
-        with open(f"{filename}.pkl", 'wb') as file:
-            pickle.dump(self, file)
+        try:
+            filename.split('.')[1]
+            with open(f"{filename}", 'wb') as file:
+                pickle.dump(self, file)
+        except IndexError:
+            with open(f"{filename}.pkl", 'wb') as file:
+                pickle.dump(self, file)
 
+            
 
     def load(filename):
         """loads instance from pickle format file"""
