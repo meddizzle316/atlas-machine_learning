@@ -12,4 +12,4 @@ def one_hot_encode(Y, classes):
 
     encoded_data[Y, np.arange(Y.size)] = 1
 
-    return encoded_data.T
+    return encoded_data
