@@ -8,7 +8,7 @@ def create_layer(prev, n, activation):
     """creates a tensorflow layer"""
     layer = tf.keras.layers.Dense(n,
                                   kernel_initializer=tf.keras.initializers.VarianceScaling(mode='fan_avg'),
-                                  activation= 'tanh',
+                                  activation= activation,
                                   name='layer')
 
     output= layer(prev)
