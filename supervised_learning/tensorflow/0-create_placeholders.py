@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """stupid tf1 thing even though tf2 is a thing"""
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 tf.compat.v1.disable_eager_execution()
 
 
