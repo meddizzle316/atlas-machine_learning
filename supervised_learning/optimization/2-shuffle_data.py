@@ -5,13 +5,9 @@ import numpy as np
 
 def shuffle_data(X, Y):
     """shuffles data points in two matrices the same way"""
-
-    # shuffled_X = np.empty(X.shape)
-    # shuffled_Y = np.empty(Y.shape)
-    # permutation = np.random.permutation(len(X))
-    # for old_index, new_index in enumerate(permutation):
-    #     shuffled_X[new_index] = X[old_index]
-    #     shuffled_Y[new_index] = Y[old_index]
-    # return shuffled_X, shuffled_Y
     p = np.random.permutation(len(X))
+    # creates a random permutation of numbers 0 up to len(X) - 1 
+    # so 4, making a list of 5 numbers 
+    # for our particular seed it's [0 2 1 4 3] as the output
+    # then we return those indexes of the X and Y matrices
     return X[p], Y[p]
