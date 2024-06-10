@@ -10,11 +10,11 @@ def moving_average(data, beta):
 
     moving_average = []
     for i in range(len(data)):
-        if i > 0:
-            v = (beta*moving_average[i-1]) + ((1 - beta) * data[i])
-        else:
+        if i == 0:
             v = (beta*0) + ((1 - beta) * data[i])
-            v = v / (1 - np.power(beta, i + 1))
-        moving_average.append(v)
+        else:
+            v = (beta*v) + ((1 - beta) * data[i])
+        bias_v = v / (1 - (beta ** (i + 1)))
+        moving_average.append(bias_v)
     # moving_average.pop(0)
     return moving_average
