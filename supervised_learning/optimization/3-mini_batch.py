@@ -6,6 +6,9 @@ shuffle_data = __import__('2-shuffle_data').shuffle_data
 
 def create_mini_batches(X, Y, batch_size):
     """creates mini-batches, doesn't train"""
+    """creates a index of X length, then randomizes that index"""
+    """then runs through the size of X.shape yielding """
+    """'batches' of the batch_size"""
     indices = np.arange(X.shape[0])
     np.random.shuffle(indices)
     for start_index in range(0, X.shape[0] - batch_size + 1, batch_size):
