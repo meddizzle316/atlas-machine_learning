@@ -14,6 +14,11 @@ def moving_average(data, beta):
             v = (beta*0) + ((1 - beta) * data[i])
         else:
             v = (beta*v) + ((1 - beta) * data[i])
+            # this is important: the v above is v calculated 
+            # WITHOUT the bias, the bias is only tacked on 
+            # just before it's added to the list
+            # and we don't touch that list
+            # we just use the v term from the last iteration
         bias_v = v / (1 - (beta ** (i + 1)))
         moving_average.append(bias_v)
     # moving_average.pop(0)
