@@ -2,6 +2,7 @@
 """tensorflow RMSprop"""
 import tensorflow as tf
 
-def create_RMSProp_op(alpha, beta2, epsilon):
+
+def create_RMSProp_op(alpha, b, e):
     """tensorflow RMSprop"""
-    return tf.keras.optimizers.RMSprop(learning_rate=alpha, rho=beta2, epsilon=epsilon)
+    return tf.keras.optimizers.RMSprop(learning_rate=alpha, rho=b, epsilon=e)
