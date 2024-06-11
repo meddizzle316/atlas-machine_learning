@@ -15,9 +15,9 @@ def batch_norm(Z, gamma, beta, epsilon):
     u = np.mean(Z, axis=0)
     var = np.var(Z, axis=0)
     # the above gets mean and variance
-    # but for each individual 'feature' 
+    # but for each individual 'feature'
     # aka by axis=0 the rows
-    # which is apparently more appropriate 
+    # which is apparently more appropriate
     # for batch normalization
     z_norm = (Z - u) / ((var + epsilon) ** 0.5)
     return (z_norm * gamma) + beta
