@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """calculates sensitivity of matrix"""
+import numpy as np
 
 
 def sensitivity(confusion):
@@ -8,7 +9,6 @@ def sensitivity(confusion):
     false_positive = []
     sensitivity = []
 
-    # getting true and false positives
     columns = confusion.shape[1]
     rows = confusion.shape[0]
     for i in range(rows):
@@ -19,9 +19,6 @@ def sensitivity(confusion):
                 row_fp += confusion[i, x]
         false_positive.append(row_fp)
 
-    # getting sensitivity
-    # I should probably have something like assert len(true_positive)
-    # == len(false_positive) but whatever
     for true_positive, false_positive in zip(true_positive, false_positive):
         class_sensitivity = true_positive / (true_positive + false_positive)
         sensitivity.append(class_sensitivity)
