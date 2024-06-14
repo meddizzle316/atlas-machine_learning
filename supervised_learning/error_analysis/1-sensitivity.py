@@ -6,7 +6,7 @@ import numpy as np
 def sensitivity(confusion):
     """given confusion, calculates sensitivity"""
     true_positive = []
-    false_positive = []
+    false_negative = []
     sensitivity = []
 
     columns = confusion.shape[1]
@@ -17,9 +17,9 @@ def sensitivity(confusion):
         for x in range(columns):
             if i != x:
                 row_fp += confusion[i, x]
-        false_positive.append(row_fp)
+        false_negative.append(row_fp)
 
-    for true_positive, false_positive in zip(true_positive, false_positive):
-        class_sensitivity = true_positive / (true_positive + false_positive)
+    for true_positive, false_negative in zip(true_positive, false_negative):
+        class_sensitivity = true_positive / (true_positive + false_negative)
         sensitivity.append(float(f"{class_sensitivity:.8}"))
     return np.array(sensitivity)
