@@ -22,4 +22,4 @@ def sensitivity(confusion):
     for true_positive, false_positive in zip(true_positive, false_positive):
         class_sensitivity = true_positive / (true_positive + false_positive)
         sensitivity.append(float(f"{class_sensitivity:.8}"))
-    return sensitivity
+    return np.array(sensitivity)
