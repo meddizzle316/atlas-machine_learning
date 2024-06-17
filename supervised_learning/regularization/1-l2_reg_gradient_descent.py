@@ -17,7 +17,7 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
         if i == L:
             dz = cache[f"A{L}"] - Y
         else:
-            dz = da * (1 - np.tanh(cache[f"A{i}"]) ** 2)
+            dz = da * (1 - (cache[f"A{i}"]) ** 2)
 
         da = np.matmul(weights[f"W{i}"].T, dz) 
         dw = np.matmul(dz, cache[f"A{i - 1}"].T) / m
@@ -28,8 +28,8 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
         # adding L2 reg
 
         l2_dw = dw + ((lambtha / m) * W) 
-        l2_db = db + ((lambtha / m) * W)
+        # l2_db = db + ((lambtha / m) * W)
         # updating the weights (do this all at one time)
         weights[f"W{i}"] = W - (alpha * l2_dw)
-        weights[f"b{i}"] = b - (alpha * l2_db) 
+        weights[f"b{i}"] = b - (alpha * db) 
 
