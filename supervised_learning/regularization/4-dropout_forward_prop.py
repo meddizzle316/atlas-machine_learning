@@ -6,7 +6,7 @@ import numpy as np
 def dropout_forward_prop(X, in_weights, L, keep_prob):
     """dropout"""
     cache = {}
-    cache["A0"] = X # is X numpy?
+    cache["A0"] = X
     for i in range(1, L + 1):
         W = in_weights[f"W{i}"]
         b = in_weights[f"b{i}"]
