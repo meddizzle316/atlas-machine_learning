@@ -12,13 +12,13 @@ def dropout_forward_prop(X, in_weights, L, keep_prob):
         b = in_weights[f"b{i}"]
         if i != L:
             a = np.tanh(np.dot(W, cache[f"A{i - 1}"]) + b)
+            d = np.random.rand(a.shape[0], a.shape[1]) < keep_prob
+            a = np.multiply(a, d)
+            a /= keep_prob
+            cache[f"D{i}"] = d
         else:
             z = np.dot(W, cache[f"A{i - 1}"]) + b
             t = np.exp(z)
             a = t / np.sum(t, axis=0)
-        d = np.random.rand(a.shape[0], a.shape[1]) < keep_prob
-        a = np.multiply(a, d)
-        a /= keep_prob
         cache[f"A{i}"] = a
-        cache[f"D{i}"] = d
     return cache
