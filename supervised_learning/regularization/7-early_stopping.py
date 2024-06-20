@@ -14,8 +14,8 @@ def early_stopping(cost, opt_cost, threshold, patience, count):
 
     # false route
     count += 1
-    if threshold < opt_cost - cost:
+    if cost < opt_cost - threshold:
         return False, 0
-    elif threshold >= opt_cost - cost and count < 15:
-        return False, count
-    return True, count
+    elif count >= patience:
+        return True, count
+    return False, count
