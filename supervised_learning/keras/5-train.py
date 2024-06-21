@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+"""trains model"""
 import tensorflow.keras as K
 
 
