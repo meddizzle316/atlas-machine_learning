@@ -10,7 +10,7 @@ def train_model(network, data, labels, batch_size, epochs, validation_data=None,
     
     def schedule(epoch, learningRate):
         """learning scheduler"""
-        return (1 / (1 + decay_rate * epoch)) * alpha
+        return (alpha / (1 + decay_rate * epoch))
     
     learning_rate_sch = K.callbacks.LearningRateScheduler(schedule, 1)
 
