@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """a module for l2 regularization cost"""
+"""a test to see if things work"""
 import numpy as np
 
 
