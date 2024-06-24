@@ -19,8 +19,8 @@ def train_model(network, data, labels, batch_size, epochs, validation_data=None,
         early_stop = K.callbacks.EarlyStopping(monitor='val_loss', patience=patience)
         callback_list.append(early_stop)
 
-    # if not filepath:
-    filepath = './network1.keras'
+    if not filepath:
+        filepath = './network1.keras'
     
     if save_best:
         model_checkpoint = K.callbacks.ModelCheckpoint(
@@ -30,8 +30,8 @@ def train_model(network, data, labels, batch_size, epochs, validation_data=None,
         )
         callback_list.append(model_checkpoint)
     
-    print(f"This is the callback list {callback_list}")
-    print(f"this is the filepath {filepath}")
+    # print(f"This is the callback list {callback_list}")
+    # print(f"this is the filepath {filepath}")
     if not validation_data:
         r = network.fit(data, labels, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
     elif validation_data:
