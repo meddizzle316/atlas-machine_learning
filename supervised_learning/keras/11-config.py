@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """saves and loads config"""
 import tensorflow.keras as K
-import json
 
 
 def save_config(network, filename):
