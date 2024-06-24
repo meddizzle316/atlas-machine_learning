@@ -25,8 +25,7 @@ def train_model(network, data, labels, batch_size, epochs, validation_data=None,
     if save_best:
         model_checkpoint = K.callbacks.ModelCheckpoint(
             filepath=filepath,
-            monitor='val_loss',
-            mode='min',
+            save_best_only=True
         )
         callback_list.append(model_checkpoint)
     
@@ -34,9 +33,10 @@ def train_model(network, data, labels, batch_size, epochs, validation_data=None,
     # print(f"this is the filepath {filepath}")
     if not validation_data:
         r = network.fit(data, labels, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
-    elif validation_data:
+    elif validation_data and save_best:
         r = network.fit(data, labels, validation_data=validation_data, callbacks=callback_list, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
-
+    elif not validation_data and save_best:
+        r = network.fit(data, labels, callbacks=callback_list, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
     # if not validation_data:
     #     r = network.fit(data, labels, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
     # elif validation_data and not early_stopping and not learning_rate_decay:
