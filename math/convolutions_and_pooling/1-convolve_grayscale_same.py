@@ -15,8 +15,10 @@ def convolve_grayscale_same(images, kernel):
     kw = kernel.shape[1]
 
 
-    out_height = images.shape[1]
-    out_width = images.shape[2]
+    # out_height = images.shape[1]
+    # out_width = images.shape[2]
+    out_height = int((images.shape[1] + (2 * (kernel.shape[0] // 2))- kh) + 1)
+    out_width = int((images.shape[2] + (2 * (kernel.shape[1] // 2))- kw) + 1)
 
     # print("this is out height", out_height)
     # print("this is out width", out_width)
