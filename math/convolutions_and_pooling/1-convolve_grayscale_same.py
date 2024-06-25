@@ -13,10 +13,16 @@ def convolve_grayscale_same(images, kernel):
 
     kh = kernel.shape[0]
     kw = kernel.shape[1]
+    s = 1
+    p = round((s -1 ) *images.shape[1] + kh / 2)
+    # print(f"this is the padding {p}")
 
-    out_height = int((images.shape[1] - kh) + 1 + (2 * 1) / 1)
-    out_width = int((images.shape[2] - kw) + 1 + (2 * 1) / 1)
 
+    out_height = int((images.shape[1] + (p)- kh) + 1)
+    out_width = int((images.shape[2] + (p)- kw) + 1)
+
+    # print("this is out height", out_height)
+    # print("this is out width", out_width)
     output = np.zeros((m, out_height, out_width))
 
     for i in range(out_height):
