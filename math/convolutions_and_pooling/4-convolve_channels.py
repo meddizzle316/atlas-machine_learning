@@ -21,7 +21,7 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
     # out_width = int(((images.shape[2] + (2 * (padding[1])) - kw) / stride[1]) + 1
     
     # print("this is the stride", stride)
-    if padding == 'same':
+    if isinstance(padding, str) and padding == "same":
         pad_h = kernel.shape[0] // 2
         pad_w = kernel.shape[1] // 2
         # print(pad_h)
@@ -29,8 +29,8 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
         out_height = int((images.shape[1] + (2 * (pad_h))- kh)/stride[0]) + 1
         out_width = int((images.shape[2] + (2 * (pad_w))- kw)/stride[1]) + 1
         padded_input = np.pad(images, ((0,0), (pad_h, pad_h),
-                                           (pad_w, pad_w), images.shape[3]))
-    elif padding == 'valid':
+                                           (pad_w, pad_w), (0, 0)))
+    elif padding == "valid":
         out_height = int((images.shape[1] - kh)/ stride[0]) + 1
         out_width = int((images.shape[2] - kw)/ stride[1]) + 1
 
@@ -42,7 +42,7 @@ def convolve_channels(images, kernel, padding='same', stride=(1, 1)):
         out_height = int((images.shape[1] + (2 * (pad_h))- kh)/stride[0]) + 1
         out_width = int((images.shape[2] + (2 * (pad_w))- kw)/stride[1]) + 1
         padded_input = np.pad(images, ((0,0), (pad_h, pad_h),
-                                           (pad_w, pad_w), images.shape[3])) # not sure about this
+                                           (pad_w, pad_w), (0, 0))) # not sure about this
 
     output = np.zeros((m, out_height, out_width))
     # print("this is out height", out_height)
