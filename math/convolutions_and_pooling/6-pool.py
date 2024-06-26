@@ -12,16 +12,18 @@ def pool(images, kernel_shape, stride, mode='max'):
     w = images.shape[2]
     c = images.shape[3]
 
-    out_height = h // kh # should be 16
-    out_width = w // kw # should be 16
+    out_height = ((h - kh) // sh + 1)
+    out_width = ((w - kw) // sw + 1)
+    # print("this is the out height", out_height)
+    # print("this is the out width", out_width)
 
     output = np.zeros((m, out_height, out_width, c))
     
-    for i in range(out_height):
-        for j in range(out_width):
+    for j in range(out_height):
+        for i in range(out_width):
             if mode == 'max':
                 output[:, i, j, :] += np.max(images[:, i*sh:i*sh+kh, j*sw:j*sw+kw, :], axis=(1, 2))
             elif mode == 'avg':
-                output[:, i, j, :] += np.mean(images[:, i*sh:i*sh+kh, j*sw:j*sw+kw, :], axis=(1, 2))
+                output[:, i, j, :] += np.average(images[:, i*sh:i*sh+kh, j*sw:j*sw+kw, :], axis=(1, 2))
 
     return output
