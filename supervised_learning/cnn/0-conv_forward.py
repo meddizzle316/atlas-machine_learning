@@ -33,7 +33,7 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
     # output [[[[ 0.3130677  -0.85409574]]]]
     # does this mean that c_new is 2 ? 
     c_new = b.shape[3]
-    print("this is c_new", c_new)
+    # print("this is c_new", c_new)
 
     stride_h, stride_w = stride
     
@@ -52,12 +52,17 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
     # print("this is the output_height", output_height) 26 if valid, 28 if same
     # print("this is the output width", output_width) 26 if valid, 28 if same
 
-    output = np.zeros((m, output_height, output_width, len(W))) # feel like this 4th dimension is gonna get me
+    output = np.zeros((m, output_height, output_width, c_new)) # feel like this 4th dimension is gonna get me
 
+    new_b = np.squeeze(b)
+    # print("This is the shape of new_b", new_b.shape) (2, )
+    # print("this is new_b", new_b) [ 0.3130677  -0.85409574]
+    # print(b[...,0])
+    # print(b[...,1])
 
     for ch in range(c_new):
         for i in range(output_height):
             for j in range(output_width):
-                output[:, i, j, ch] += np.mean(padded_prev_A[:, i*stride_h: i*stride_h + kh, j*stride_w:j*stride_w + kw, :] * W[..., ch], axis=(1, 2, 3))
+                output[:, i, j, ch] += activation(np.sum(((padded_prev_A[:, i*stride_h: i*stride_h + kh, j*stride_w:j*stride_w + kw, :] * W[..., ch])), axis=(1, 2, 3)) ) + new_b[ch]
 
     return output
