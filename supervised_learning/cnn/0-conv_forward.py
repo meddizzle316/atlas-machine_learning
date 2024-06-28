@@ -41,8 +41,11 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
         pad_h = 0
         pad_w = 0
     if padding == 'same':
-        pad_h =  kh // 2
-        pad_w = kw // 2
+        pad_h =  round(((stride_h - 1) * h_prev - stride_h + kh) / 2)
+        pad_w = round(((stride_w - 1) * w_prev - stride_w + kw) / 2)
+        # print('this is pad_h', pad_h)
+        # print("this is pad_w", pad_w)
+    
 
     output_height = int(((h_prev + (2 * pad_h) - kh) / stride_h) + 1)
     output_width = int(((w_prev + (2 * pad_w) - kw) / stride_w) + 1)
@@ -57,12 +60,11 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
     new_b = np.squeeze(b)
     # print("This is the shape of new_b", new_b.shape) (2, )
     # print("this is new_b", new_b) [ 0.3130677  -0.85409574]
-    # print(b[...,0])
-    # print(b[...,1])
+
 
     for ch in range(c_new):
         for i in range(output_height):
             for j in range(output_width):
-                output[:, i, j, ch] += activation(np.sum(((padded_prev_A[:, i*stride_h: i*stride_h + kh, j*stride_w:j*stride_w + kw, :] * W[..., ch])), axis=(1, 2, 3)) ) + new_b[ch]
+                output[:, i, j, ch] += np.sum(((padded_prev_A[:, i*stride_h: i*stride_h + kh, j*stride_w:j*stride_w + kw, :] * W[:,:,:, ch])), axis=(1, 2, 3))
 
-    return output
+    return activation(output + b)
