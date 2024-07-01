@@ -38,16 +38,29 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
 
     # dA_prev = np.matmul(W[:, :,...])
     da = np.zeros(A_prev.shape)
+    # da = np.zeros_like(W)
     dW = np.zeros(W.shape)
 
     # where is the learning rate? Oh we're just getting the derivatives 
     # not updating the weights
-    print("this is the shape of W", W.shape)
-    print("this is the shape of dz", dZ.shape)
-    print('this is the shape of da', da.shape)
+    # print("this is the shape of W", W.shape) # Output  (3, 3, 1, 2)
+    # print("this is the shape of dz", dZ.shape) # Output (10, 26, 26, 2)
+    # print('this is the shape of da', da.shape) # Output (10, 28, 28, 1)
 
     db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
     # why don't you divide by the number of samples (10)
+
+    
+    # print(dZ[0, 0, 0, 0])
+
+    # W_expand = np.expand_dims(W, axis=0)
+    # W_expand = np.repeat(W_expand, 28, axis=0)
+    # W_expand = np.expand_dims(W_expand, axis=0)
+    # W_expand = np.repeat(W_expand, 28, axis=0) # size (28, 28, 3, 3, 1, 2)
+    # print("This is the shape of W_expand", W_expand.shape) # (28, 28, 3, 3, 1, 2)
+    # # print("this is W_expand", W_expand)
+
+    # print(h_new / stride_h)
 
     for n in range(m):
         for i in range(h_new):
@@ -55,5 +68,5 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                 for c in range(c_new):
                     da[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :] +=   W[:, :, :, c] * dZ[n, i, j, c] 
 
-
+                    dW[:, :, :, c] += A_prev[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :] * dZ[n, i, j, c]
     return da, dW, db
