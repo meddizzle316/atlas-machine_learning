@@ -6,46 +6,32 @@ import numpy as np
 def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     """conv backward without tensorflow"""
 
+    m, h_new, w_new, c_new = dZ.shape
+    h_prev, w_prev, c_prev = A_prev.shape
 
-    m = dZ.shape[0] # OUtput 10
-    h_new = dZ.shape[1] # output 26
-    w_new = dZ.shape[2] # output 26
-    c_new = dZ.shape[3] # output 2
-
-
-    h_prev = A_prev.shape[0] # output 10, height of previous layer
-    w_prev = A_prev.shape[1] # output 28, width of previous layer
-    c_prev = A_prev.shape[2] # output 28, number of channels in prev layer??
-
-    # hmm, h_prev and c_prev might be mixed up
-
-    kh = W.shape[0] # 3
-    kw = W.shape[1] # 3
+    kh, kw = W.shape
 
     # W is (3, 3, 1, 2)
 
+    sh, s_w = stride
 
-    new_b = np.squeeze(b)
-
-    stride_h, stride_w = stride
-    
     if padding == 'valid':
-        pad_h = 0
-        pad_w = 0
+        ph = 0
+        pw = 0
     if padding == 'same':
-        # pad_h =  round(((stride_h - 1) * h_prev - stride_h + kh) / 2)
-        # pad_w = round(((stride_w - 1) * w_prev - stride_w + kw) / 2)
-        pad_h = ((((c_prev - 1) * stride_h) + kh - c_prev) // 2) + 1
-        pad_w = ((((w_prev - 1) * stride_w) + kw - w_prev) // 2) + 1
+        # ph =  round(((sh - 1) * h_prev - sh + kh) / 2)
+        # pw = round(((s_w - 1) * w_prev - s_w + kw) / 2)
+        ph = ((((c_prev - 1) * sh) + kh - c_prev) // 2) + 1
+        pw = ((((w_prev - 1) * s_w) + kw - w_prev) // 2) + 1
 
-    # print("this is pad_h", pad_h)
-    # print("this is pad_w", pad_w)
+    # print("this is ph", ph)
+    # print("this is pw", pw)
     # dA_prev = np.matmul(W[:, :,...])
     da = np.zeros(A_prev.shape)
     # da = np.zeros_like(W)
     dW = np.zeros(W.shape)
 
-    # where is the learning rate? Oh we're just getting the derivatives 
+    # where is the learning rate? Oh we're just getting the derivatives
     # not updating the weights
     # print("this is the shape of W", W.shape) # Output  (3, 3, 1, 2)
     # print("this is the shape of dz", dZ.shape) # Output (10, 26, 26, 2)
@@ -54,37 +40,38 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
     # why don't you divide by the number of samples (10)
 
-    
     # print(dZ[0, 0, 0, 0])
 
     # W_expand = np.expand_dims(W, axis=0)
     # W_expand = np.repeat(W_expand, 28, axis=0)
     # W_expand = np.expand_dims(W_expand, axis=0)
-    # W_expand = np.repeat(W_expand, 28, axis=0) # size (28, 28, 3, 3, 1, 2)
-    # print("This is the shape of W_expand", W_expand.shape) # (28, 28, 3, 3, 1, 2)
+    # W_expand = np.repeat(W_expand, 28, axis=0) size (28, 28, 3, 3, 1, 2)
+    # print("This is the shape of W_expand", W_expand.shape)
+    # (28, 28, 3, 3, 1, 2)
     # # print("this is W_expand", W_expand)
 
-    # print(h_new / stride_h)
+    # print(h_new / sh)
 
-    pad_da = np.pad(da, ((0, 0), (pad_h, pad_h), (pad_w, pad_w), (0, 0) ), mode='constant')
-    pad_A_prev = np.pad(A_prev, ((0, 0), (pad_h, pad_h), (pad_w, pad_w), (0, 0)), mode='constant')
+    p_da = np.pad(da, ((0, 0), (ph, ph), (pw, pw), (0, 0)), mode='constant')
+    A_prev = np.pad(A_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)),
+                    mode='constant')
     # print("this is the shape of da after padding", da.shape)
-    # print("this is the shape of A_prev after padding", pad_A_prev.shape)
+    # print("this is the shape of A_prev after padding", A_prev.shape)
 
     for n in range(m):
         for i in range(h_new):
             for j in range(w_new):
                 for c in range(c_new):
 
-                    pad_da[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :] +=  np.multiply(W[:, :, :, c], dZ[n, i, j, c]) 
+                    p_da[n, i * sh:i * sh + kh, j * s_w:j * s_w + kw, :] += (
+                        W[:, :, :, c] * dZ[n, i, j, c])
 
-                    dW[:, :, :, c] += np.multiply(pad_A_prev[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :], dZ[n, i, j, c])
-                    # except ValueError:
-                    #     print("this is the current shape of da", da[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :].shape)
-                        
+                    dW[:, :, :, c] += (
+                        A_prev[n, i * sh:i * sh + kh, j * s_w:j * s_w + kw, :]
+                        * dZ[n, i, j, c])
 
     if padding == 'same':
-        da = pad_da[:, pad_h:-pad_h, pad_w:-pad_w, :]
+        da = p_da[:, ph:-ph, pw:-pw, :]
     else:
-        da = pad_da
+        da = p_da
     return da, dW, db
