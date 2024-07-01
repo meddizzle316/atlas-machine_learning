@@ -10,7 +10,7 @@ def lenet5(input):
     # print(input.shape)
     m, h, w, c = input.shape
 
-    he_normal = K.initializers.VarianceScaling(scale=2.0)
+    he_normal = K.initializers.VarianceScaling(scale=2.0, seed=0)
     x = K.layers.Conv2D(6, (5, 5), activation='relu', input_shape=(m, h, w, c), padding='same', kernel_initializer=he_normal)(input)
     x = K.layers.MaxPooling2D(pool_size=2, strides=2)(x)
     x = K.layers.Conv2D(16, (5, 5), padding='valid', kernel_initializer=he_normal, activation='relu')(x)
