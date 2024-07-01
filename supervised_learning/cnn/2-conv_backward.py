@@ -36,6 +36,8 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
         pad_h =  round(((stride_h - 1) * h_prev - stride_h + kh) / 2)
         pad_w = round(((stride_w - 1) * w_prev - stride_w + kw) / 2)
 
+    # print("this is pad_h", pad_h)
+    # print("this is pad_w", pad_w)
     # dA_prev = np.matmul(W[:, :,...])
     da = np.zeros(A_prev.shape)
     # da = np.zeros_like(W)
@@ -62,11 +64,23 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
 
     # print(h_new / stride_h)
 
+    pad_da = np.pad(da, ((0, 0), (pad_h, pad_h), (pad_w, pad_w), (0, 0) ))
+    pad_A_prev = np.pad(A_prev, ((0, 0), (pad_h, pad_h), (pad_w, pad_w), (0, 0)))
+    # print("this is the shape of da after padding", da.shape)
+    # print("this is the shape of A_prev after padding", pad_A_prev.shape)
+
     for n in range(m):
         for i in range(h_new):
             for j in range(w_new):
                 for c in range(c_new):
-                    da[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :] +=   W[:, :, :, c] * dZ[n, i, j, c] 
 
-                    dW[:, :, :, c] += A_prev[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :] * dZ[n, i, j, c]
-    return da, dW, db
+                    pad_da[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :] +=   W[:, :, :, c] * dZ[n, i, j, c] 
+
+                    dW[:, :, :, c] += pad_A_prev[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :] * dZ[n, i, j, c]
+                    # except ValueError:
+                    #     print("this is the current shape of da", da[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :].shape)
+                        
+
+    # if padding == 'same':
+
+    return pad_da, dW, db
