@@ -7,7 +7,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     """conv backward without tensorflow"""
 
     m, h_new, w_new, c_new = dZ.shape
-    h_prev, w_prev, c_prev = A_prev.shape
+    _, h_prev, w_prev, c_prev = A_prev.shape
 
     kh, kw = W.shape
 
