@@ -76,9 +76,9 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
             for j in range(w_new):
                 for c in range(c_new):
 
-                    pad_da[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :] +=   W[:, :, :, c] * dZ[n, i, j, c] 
+                    pad_da[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :] +=  np.multiply(W[:, :, :, c], dZ[n, i, j, c]) 
 
-                    dW[:, :, :, c] += pad_A_prev[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :] * dZ[n, i, j, c]
+                    dW[:, :, :, c] += np.multiply(pad_A_prev[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :], dZ[n, i, j, c])
                     # except ValueError:
                     #     print("this is the current shape of da", da[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :].shape)
                         
