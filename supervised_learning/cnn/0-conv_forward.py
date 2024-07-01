@@ -11,7 +11,7 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
 
     m, h_prev, w_prev, c_prev = A_prev.shape
 
-    kh, kw, kc_prev = W.shape
+    kh, kw, kc_prev, _ = W.shape
 
     c_new = b.shape[3]
 
