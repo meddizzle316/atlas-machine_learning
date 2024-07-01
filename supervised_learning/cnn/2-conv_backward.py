@@ -33,8 +33,10 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
         pad_h = 0
         pad_w = 0
     if padding == 'same':
-        pad_h =  round(((stride_h - 1) * h_prev - stride_h + kh) / 2)
-        pad_w = round(((stride_w - 1) * w_prev - stride_w + kw) / 2)
+        # pad_h =  round(((stride_h - 1) * h_prev - stride_h + kh) / 2)
+        # pad_w = round(((stride_w - 1) * w_prev - stride_w + kw) / 2)
+        pad_h = ((((h_prev - 1) * stride_h) + kh - h_prev) // 2) + 1
+        pad_w = ((((w_prev - 1) * stride_w) + kw - w_prev) // 2) + 1
 
     # print("this is pad_h", pad_h)
     # print("this is pad_w", pad_w)
