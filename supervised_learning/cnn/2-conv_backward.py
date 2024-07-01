@@ -9,7 +9,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     m, h_new, w_new, c_new = dZ.shape
     _, h_prev, w_prev, c_prev = A_prev.shape
 
-    kh, kw = W.shape
+    kh, kw, _, _ = W.shape
 
     # W is (3, 3, 1, 2)
 
