@@ -81,6 +81,8 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                     #     print("this is the current shape of da", da[n, i*stride_h:i *stride_h +kh, j *stride_w :j *stride_w +kw, :].shape)
                         
 
-    # if padding == 'same':
-
-    return pad_da, dW, db
+    if padding == 'same':
+        da = pad_da[:, pad_h:-pad_h, pad_w:-pad_w, :]
+    else:
+        da = pad_da
+    return da, dW, db
