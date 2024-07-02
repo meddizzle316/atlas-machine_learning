@@ -19,7 +19,7 @@ def pool_backward(dA, A_prev, kernel_shape, stride=(1, 1), mode='max'):
     m, h_x, w_x, c_prev = A_prev.shape
     sh, sw = stride
 
-    da_prev = np.zeros_like(A_prev)  
+    da_prev = np.zeros_like(A_prev)
 
     for n in range(m):
         for h in range(h_new):
@@ -28,9 +28,9 @@ def pool_backward(dA, A_prev, kernel_shape, stride=(1, 1), mode='max'):
                     if mode == 'max':
                         temp = A_prev[n, h*sh:h*sh+kh, w*sw:w*sw+kw, ch]
                         mask = (temp == np.max(temp))
-                        da_prev[n, h*sh:h*sh+kh, w*sw:w*sw+kw, ch] += dA[n, h, w, ch] * mask
+                        da_prev[n, h*sh:h*sh+kh, w*sw:w*sw+kw, ch] += (
+                            dA[n, h, w, ch] * mask)
                     if mode == 'avg':
-                        da_prev[n, h*sh:h*sh+kh, w*sw:w*sw+kw, ch] += (dA[n, h, w, ch])/kh/kw
-                        #     da_prev[n, h*sh:h*sh+kh, w*sw:w*sw+kw, ch] += (dA[m, h, w, ch]) /kh/kw
-                        # IndexError: index 147 is out of bounds for axis 0 with size 147
+                        da_prev[n, h*sh:h*sh+kh, w*sw:w*sw+kw, ch] += ((
+                            dA[n, h, w, ch])/kh/kw)
     return da_prev
