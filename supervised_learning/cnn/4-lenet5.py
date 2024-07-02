@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import tensorflow.compat.v1 as tf
-"""builds modified version of LeNet-5"""
+"""builds modified version of LeNet-5
+trying to add more documentation
+using old tf version like a dingus
+"""
 
 
 def lenet5(x, y):
