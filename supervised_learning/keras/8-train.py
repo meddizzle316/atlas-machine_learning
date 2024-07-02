@@ -31,20 +31,12 @@ def train_model(network, data, labels, batch_size, epochs, validation_data=None,
     
     # print(f"This is the callback list {callback_list}")
     # print(f"this is the filepath {filepath}")
-    if not validation_data:
-        r = network.fit(data, labels, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
-    elif validation_data and save_best:
-        r = network.fit(data, labels, validation_data=validation_data, callbacks=callback_list, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
-    elif not validation_data and save_best:
+    if not validation_data and save_best:
         r = network.fit(data, labels, callbacks=callback_list, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
-    # if not validation_data:
-    #     r = network.fit(data, labels, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
-    # elif validation_data and not early_stopping and not learning_rate_decay:
-    #     r = network.fit(data, labels, validation_data=validation_data, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
-    # elif validation_data and early_stopping and not learning_rate_decay:
-    #     r = network.fit(data, labels, validation_data=validation_data, callbacks=[early_stop], batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
-    # elif validation_data and early_stopping and learning_rate_decay:
-    #     r = network.fit(data, labels, validation_data=validation_data, callbacks=[early_stop, learning_rate_sch], batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
-    # elif validation_data and not early_stopping and learning_rate_decay:
-    #     r = network.fit(data, labels, validation_data=validation_data, callbacks=[learning_rate_sch], batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
+    elif save_best:
+        r = network.fit(data, labels, validation_data=validation_data, callbacks=callback_list, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
+    elif not validation_data and not save_best:
+        r = network.fit(data, labels, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
+    elif not save_best:
+        r = network.fit(data, labels, validation_data=validation_data, callbacks=callback_list, batch_size=batch_size, epochs=epochs, verbose=verbose, shuffle=shuffle)
     return r

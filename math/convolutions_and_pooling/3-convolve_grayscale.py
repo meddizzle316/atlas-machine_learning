@@ -54,6 +54,7 @@ def convolve_grayscale(images, kernel, padding='same', stride=(1, 1)):
             #     pass
             # else:
             output[:, i, j] += np.sum(padded_input[:, i * stride[0]:(i*stride[0])+kh, j * stride[1]:(j * stride[1]) + kw] * kernel, axis=(1, 2))
+            # why does the 'diagonal' pattern work here? Shouldn't it be with the step of the range function?
             # calculates the sum over the 2nd and third dimensions, ignoring the first
 
 

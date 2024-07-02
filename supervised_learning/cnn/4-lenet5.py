@@ -2,21 +2,36 @@
 import tensorflow.compat.v1 as tf
 """builds modified version of LeNet-5"""
 
+
 def lenet5(x, y):
     """builds modified version of LeNet-5"""
-    m, h, w, c= x.shape
-    
-    he_normal = tf.keras.initializers.VarianceScaling(scale=2.0)
+    m, h, w, c = x.shape
 
+    he = tf.keras.initializers.VarianceScaling(scale=2.0)
 
-    first_conv_layer = tf.layers.Conv2D(filters=6, kernel_size=5, input_shape=(m, h, w, c), padding='same', activation='relu', kernel_initializer=he_normal)(x)
-    first_pool = tf.layers.MaxPooling2D(pool_size=2, strides=2)(first_conv_layer)
-    second_conv_layer = tf.layers.Conv2D(filters=16, kernel_size=5, padding='valid', activation='relu', kernel_initializer=he_normal)(first_pool)
-    second_pool_layer = tf.layers.MaxPooling2D(pool_size=2, strides=2)(second_conv_layer)
+    first_conv_layer = tf.layers.Conv2D(filters=6,
+                                        kernel_size=5,
+                                        input_shape=(m, h, w, c),
+                                        padding='same',
+                                        activation='relu',
+                                        kernel_initializer=he)(x)
+    first_pool = tf.layers.MaxPooling2D(pool_size=2,
+                                        strides=2)(first_conv_layer)
+    second_conv_layer = tf.layers.Conv2D(filters=16,
+                                         kernel_size=5,
+                                         padding='valid',
+                                         activation='relu',
+                                         kernel_initializer=he)(first_pool)
+    second_pool_layer = tf.layers.MaxPooling2D(pool_size=2,
+                                               strides=2)(second_conv_layer)
     flatten_layer = tf.layers.Flatten()(second_pool_layer)
-    first_dense_layer = tf.layers.Dense(120, kernel_initializer=he_normal, activation='relu')(flatten_layer)
-    second_dense_layer = tf.layers.Dense(84, kernel_initializer=he_normal, activation='relu')(first_dense_layer)
-    third_dense_layer = tf.layers.Dense(10, kernel_initializer=he_normal)(second_dense_layer)
+    first_dense_layer = tf.layers.Dense(120,
+                                        kernel_initializer=he,
+                                        activation='relu')(flatten_layer)
+    second_dense_l = tf.layers.Dense(84, kernel_initializer=he,
+                                     activation='relu')(first_dense_layer)
+    third_dense_layer = tf.layers.Dense(10,
+                                        kernel_initializer=he)(second_dense_l)
 
     loss = tf.losses.softmax_cross_entropy(y, third_dense_layer)
 
