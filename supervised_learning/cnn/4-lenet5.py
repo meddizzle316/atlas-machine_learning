@@ -4,7 +4,9 @@ import tensorflow.compat.v1 as tf
 
 
 def lenet5(x, y):
-    """builds modified version of LeNet-5"""
+    """builds modified version of LeNet-5
+    uses tf1 but honestly looks a lot
+    like tf2"""
     m, h, w, c = x.shape
 
     he = tf.keras.initializers.VarianceScaling(scale=2.0)
