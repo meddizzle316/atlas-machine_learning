@@ -76,7 +76,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     # print("this is the shape of A_prev_expand", A_prev_expand.shape)
     # print("this is A_prev_expand", A_prev_expand)
 
-    result = A_prev_expand[1, :, :, :, :, :, :] * W_expand
+    # result = A_prev_expand[1, :, :, :, :, :, :] * W_expand
 
     # print("this is the shape of dz", dZ.shape) # Output (10, 26, 26, 2)
 
