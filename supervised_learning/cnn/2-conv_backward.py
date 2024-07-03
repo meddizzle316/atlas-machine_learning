@@ -12,6 +12,9 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     kh, kw, _, _ = W.shape
 
     # W is (3, 3, 1, 2)
+    # print("this is h_new", h_new)
+    # print("this is h_prev", h_prev)
+    # print("this is c_prev", c_prev)
 
     sh, s_w = stride
 
@@ -21,7 +24,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     if padding == 'same':
         # ph =  round(((sh - 1) * h_prev - sh + kh) / 2)
         # pw = round(((s_w - 1) * w_prev - s_w + kw) / 2)
-        ph = ((((c_prev - 1) * sh) + kh - c_prev) // 2) + 1
+        ph = ((((h_prev - 1) * sh) + kh - h_prev) // 2) + 1
         pw = ((((w_prev - 1) * s_w) + kw - w_prev) // 2) + 1
 
     # print("this is ph", ph)
@@ -52,6 +55,32 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
 
     # print(h_new / sh)
 
+    # print("this is the shape of A_prev", A_prev.shape) # Output (10, 28, 28, 1)
+
+    W_expand = np.expand_dims(W, axis=0)
+    W_expand = np.repeat(W_expand, 28, axis=0)
+    W_expand = np.expand_dims(W_expand, axis=0)
+    W_expand = np.repeat(W_expand, 28, axis=0) #size (28, 28, 3, 3, 1, 2)
+    # print("This is the shape of W_expand", W_expand.shape)
+    # print("this is W_expand", W_expand)
+
+    # print("this is A_prev", A_prev)
+
+    A_prev_expand = np.expand_dims(A_prev, axis=-1)
+    A_prev_expand = np.repeat(A_prev_expand, 2, axis=-1)
+    A_prev_expand = np.expand_dims(A_prev_expand, axis=-3)
+    A_prev_expand = np.repeat(A_prev_expand, 3, axis=-3)
+    A_prev_expand = np.expand_dims(A_prev_expand, axis=-4)
+    A_prev_expand = np.repeat(A_prev_expand, 3, axis=-4)
+
+    # print("this is the shape of A_prev_expand", A_prev_expand.shape)
+    # print("this is A_prev_expand", A_prev_expand)
+
+    result = A_prev_expand[1, :, :, :, :, :, :] * W_expand
+
+    # print("this is the shape of dz", dZ.shape) # Output (10, 26, 26, 2)
+
+
     p_da = np.pad(da, ((0, 0), (ph, ph), (pw, pw), (0, 0)), mode='constant')
     A_prev = np.pad(A_prev, ((0, 0), (ph, ph), (pw, pw), (0, 0)),
                     mode='constant')
@@ -75,3 +104,4 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     else:
         da = p_da
     return da, dW, db
+
