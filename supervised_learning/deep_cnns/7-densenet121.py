@@ -17,13 +17,13 @@ def densenet121(growth_rate=32, compression=1.0):
     x = K.layers.MaxPooling2D(pool_size=(3, 3),
                               strides=(2, 2),
                               padding='same')(x)
-    x, _ = dense_block(x, 56, growth_rate, 6)
-    x, _ = transition_layer(x, 56, compression)
-    x, _ = dense_block(x, 28, growth_rate, 12)
-    x, _ = transition_layer(x, 28, compression)
-    x, _ = dense_block(x, 14, growth_rate, 24)
-    x, _ = transition_layer(x, 14, compression)
-    x, _ = dense_block(x, 7, growth_rate, 16)
+    x, y = dense_block(x, 56, growth_rate, 6)
+    x, y = transition_layer(x, y, compression)
+    x, y = dense_block(x, 28, growth_rate, 12)
+    x, y = transition_layer(x, y, compression)
+    x, y = dense_block(x, 14, growth_rate, 24)
+    x, y = transition_layer(x, y, compression)
+    x, y = dense_block(x, 7, growth_rate, 16)
     x = K.layers.AveragePooling2D(pool_size=(7, 7),
                                         padding='same')(x)
     x = K.layers.Dense(1000, activation='softmax',
