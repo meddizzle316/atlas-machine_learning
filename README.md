@@ -1,4 +1,4 @@
-### Deep Neural Network Implementation in Python
+# Deep Neural Network Implementation in Python
 This repository contains a Python implementation of a deep neural network. The network is designed to handle classification problems and includes functionalities such as forward propagation, backward propagation, cost calculation, evaluation, training, saving/loading models, and one-hot encoding/decoding.
 
 # Features
