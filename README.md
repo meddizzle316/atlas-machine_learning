@@ -27,7 +27,7 @@ Before training, ensure your input data X and target labels Y are preprocessed a
 # Train the network
 ```nn.train(X_train, Y_train, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100)```
 
-### Evaluation
+# Evaluation
 After training, you can evaluate the network's performance on new data.
 
 #### Example evaluation data
