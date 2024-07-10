@@ -1,17 +1,28 @@
-Deep Neural Network Implementation
-This Python script defines a class DeepNeuralNetwork that implements a deep neural network model. The network can be trained using gradient descent and supports various functionalities such as forward propagation, cost calculation, evaluation, training, saving/loading models, and one-hot encoding/decoding.
+### Deep Neural Network Implementation in Python
+This repository contains a Python implementation of a deep neural network. The network is designed to handle classification problems and includes functionalities such as forward propagation, backward propagation, cost calculation, evaluation, training, saving/loading models, and one-hot encoding/decoding.
 
+# Features
+Deep Neural Network Class: Implements a deep neural network with customizable architecture.
+Activation Functions: Uses sigmoid activation function for hidden layers and softmax for the output layer.
+Forward Propagation: Computes the activations of all neurons in the network.
+Backward Propagation: Updates the weights and biases based on the calculated gradients.
+Cost Function: Utilizes categorical cross-entropy for multi-class classification problems.
+Evaluation: Provides functionality to evaluate the model's performance on new data.
+Training: Includes methods for training the model with gradient descent optimization.
+Saving and Loading Models: Allows for saving and loading trained models using pickle.
+One-Hot Encoding and Decoding: Supports one-hot encoding and decoding for input labels.
 Installation
-Ensure you have Python installed on your system. This implementation requires NumPy for numerical computations and Matplotlib for plotting during training.
+Ensure you have Python installed on your system. This project requires NumPy for numerical computations and Matplotlib for plotting (optional).
 
 pip install numpy matplotlib
 Usage
-To use this script, you need to create an instance of the DeepNeuralNetwork class, specifying the input dimension (nx) and the architecture of the network (list of layer sizes).
+To use this deep neural network, create an instance of the DeepNeuralNetwork class, specifying the number of inputs (nx) and the structure of the network (lay). Then, train the network using the train method and evaluate its performance.
 
+Example
 from deep_neural_network import DeepNeuralNetwork
 
-# Initialize the network with 784 inputs and 2 hidden layers of sizes 128 and 64
-nn = DeepNeuralNetwork(784, [128, 64])
+# Initialize the network
+nn = DeepNeuralNetwork(nx=784, lay=[256, 128])
 
 # Train the network
 nn.train(X_train, Y_train, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100)
@@ -19,23 +30,4 @@ nn.train(X_train, Y_train, iterations=5000, alpha=0.05, verbose=True, graph=True
 # Evaluate the network
 accuracy, cost = nn.evaluate(X_test, Y_test)
 print(f"Accuracy: {accuracy}, Final Cost: {cost}")
-Replace X_train, Y_train, X_test, and Y_test with your actual data.
-
-Methods
-init(self, nx, lay): Initializes the neural network with the specified input dimension and architecture.
-activation(x): Applies the sigmoid activation function to the input.
-forward_prop(X): Performs forward propagation through the network.
-cost(Y, A): Calculates the categorical cross-entropy cost between the true labels Y and the predicted activations A.
-evaluate(X, Y): Evaluates the network on the provided data X and compares the predictions to the true labels Y. Returns accuracy and cost.
-train(X, Y, iterations, alpha, verbose, graph, step): Trains the network for a specified number of iterations using gradient descent. Optionally plots the training cost over time.
-save(filename): Saves the current state of the network to a pickle file.
-load(filename): Loads a previously saved network state from a pickle file.
-one_hot_encode(Y, classes): Encodes the target variable Y into one-hot vectors.
-one_hot_decode(one_hot): Decodes one-hot encoded vectors back to original labels.
-Notes
-Ensure that the input data X is preprocessed appropriately (e.g., normalized).
-The train method includes options for verbosity and plotting the training progress.
-The evaluate method provides both the accuracy and the final cost of the model on the test set.
-The save and load methods allow for persistence of trained models across sessions.
-One-hot encoding and decoding are supported for handling multi-class classification problems.
-This implementation is designed for educational purposes and may require adjustments for real-world applications, especially regarding data preprocessing and optimization parameters.
+Replace X_train, Y_train, X_test, and Y_test with your dataset.
