@@ -43,10 +43,10 @@ After training, you can evaluate the network's performance on new data.
 ### Saving and Loading Models
 You can save the trained model to a file and load it later without retraining.
 
-### Save the model
+#### Save the model
 ```nn.save('model.pkl')```
 
-### Load the model
+#### Load the model
 ```loaded_model = DeepNeuralNetwork.load('model.pkl')```
 
 ### Note
