@@ -35,6 +35,7 @@ class Yolo():
 
         for box in outputs:
 
+            #
             x = box[:, :, :, 0]
             y = box[:, :, :, 1]
             w = box[:, :, :, 2]
