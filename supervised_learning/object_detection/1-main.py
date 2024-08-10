@@ -5,15 +5,17 @@ if __name__ == '__main__':
     Yolo = __import__('1-yolo').Yolo
 
     np.random.seed(0)
-    anchors = np.array([[[116, 90], [156, 198], [373, 326]],
-                        [[30, 61], [62, 45], [59, 119]],
-                        [[10, 13], [16, 30], [33, 23]]])
+    anchors = np.array([[[116, 90], [156, 198], [373, 326]], # large scale
+                        [[30, 61], [62, 45], [59, 119]], # med scale
+                        [[10, 13], [16, 30], [33, 23]]]) # small scale
     yolo = Yolo('yolo.h5', 'coco_classes.txt', 0.6, 0.5, anchors)
-    output1 = np.random.randn(13, 13, 3, 85)
-    output2 = np.random.randn(26, 26, 3, 85)
-    output3 = np.random.randn(52, 52, 3, 85)
-    # boxes, box_confidences, box_class_probs = yolo.process_outputs([output1, output2, output3], np.array([500, 700]))
-    boxes = yolo.process_outputs([output1, output2, output3], np.array([500, 700]))
+    output1 = np.random.randn(13, 13, 3, 85) # large
+    output2 = np.random.randn(26, 26, 3, 85) # med
+    output3 = np.random.randn(52, 52, 3, 85) # small
+    boxes, box_confidences, box_class_probs = yolo.process_outputs([output1, output2, output3], np.array([500, 700]))
+    # boxes = yolo.process_outputs([output1, output2, output3], np.array([500, 700]))
+    # print("this is the shape of the boxe 1", boxes[0].shape)
+    # print("this is the shape of the boxe 2", boxes[1].shape)
     print('Boxes:', boxes)
-    # print('Box confidences:', box_confidences)
-    # print('Box class probabilities:', box_class_probs)
+    print('Box confidences:', box_confidences)
+    print('Box class probabilities:', box_class_probs)

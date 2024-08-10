@@ -23,43 +23,92 @@ class Yolo():
         self.class_t = class_t
         self.nms_t = nms_t
         self.anchors = anchors
+        self.strides = [32, 16, 8]
+
+    def sigmoid(self, x):
+        return 1 / (1 + np.exp(-1 * x))
 
     def process_outputs(self, outputs, image_size):
         """processing outputs into useful formats"""
-        boxes = []
-        confidences = []
+        boxes = [output[..., :4] for output in outputs] # len 3
+        # boxes = []
+        confidence_list = []
         class_probs = []
-        count = 0
         image_height = image_size[0]
         image_width = image_size[1]
 
-        for box in outputs:
+        i = 0
+        for output in outputs:
 
-            #
-            x = box[:, :, :, 0]
-            y = box[:, :, :, 1]
-            w = box[:, :, :, 2]
-            h = box[:, :, :, 3]
-            confidences.append(box[:, :, :, 4])
-            class_probs.append(box[:, :, :, 5:-1])
+
+            box = output
+            x = box[..., 0]
+            y = box[..., 1]
+            w = box[..., 2]
+            h = box[..., 3]
+            confidence = box[:, :, :, 4:5]
+            # print("this is confidences", confidence)
+            sig_conf = self.sigmoid(confidence)
+            # print("this is sig confidence", sig_conf)
+            confidence_list.append(sig_conf)
+
+            class_probs.append(self.sigmoid(box[:, :, :, 5:]))
 
             gridH = box.shape[0]
             gridW = box.shape[1]
+            num_anchors = output.shape[2]
+            # print("this is shape", gridH, " of i", i)
+            # print("this is the number of anchors", num_anchors)
 
-            cx = gridW * x
-            cy = gridH * y
-            bx = tf.math.sigmoid(x) + cx
-            by = tf.math.sigmoid(y) + cy
-            bw = w * image_size
-            bh = h * image_size
+            cy = np.tile(np.arange(gridH, dtype=np.int32)[:, np.newaxis], [1, gridW])
+            cx = np.tile(np.arange(gridW, dtype=np.int32)[np.newaxis, :], [gridH, 1])
 
-            x0 = (bx - bw / 2)
-            y0 = (by - bh / 2)
-            x1 = (bx + bw / 2)
-            y1 = (by + bh / 2)
+            cy = np.repeat(cy[..., np.newaxis], num_anchors, axis=2)
+            cx = np.repeat(cx[..., np.newaxis], num_anchors, axis=2)
+            # cy = np.expand_dims(cy, -1)
+            # cx = np.expand_dims(cx, -1)
 
-            bb = np.concatenate([x0, y0, x1, y1], axis=-1)
-            reshape_bb = bb.reshape(52, 52, 3, -1)
-            boxes.append(reshape_bb)
-            count += 1
-        # return [boxes, confidences, class_probs]
+            # print("this is the shape of cy", cy.shape)
+            # print("this is the shape of cx", cx.shape)
+            # y_grid = np.tile(xy_grid[:, :, np.newaxis, :], [1, 1, 3, 1])
+            # xy_grid = np.cast(xy_grid, np.float32)
+
+            # pred_x = (self.sigmoid(x) + cx) / gridW
+            # pred_y = (self.sigmoid(y) + cy) / gridH
+            # pred_w = (np.exp(w) * self.anchors[i, :, 0]) / image_width
+            # pred_h = (np.exp(h) * self.anchors[i, :, 1]) / image_height
+
+            pred_x = (self.sigmoid(box[..., 0]) + cx) / gridW
+            pred_y = (self.sigmoid(box[..., 1]) + cy) / gridH
+            pred_w = (np.exp(box[..., 2]) * self.anchors[i, :, 0]) / image_width
+            pred_h = (np.exp(box[..., 3]) * self.anchors[i, :, 1]) / image_height
+
+            # print("this is the shape of pred x", pred_x.shape)
+            #
+            # print("this is boxes 0", boxes[0])
+            # print("shape of boxes 0", boxes[0].shape)
+            boxes[i][..., 0] = (pred_x - (pred_w * 0.5)) * image_width
+            boxes[i][..., 1] = (pred_y - (pred_h * 0.5)) * image_height
+            boxes[i][..., 2] = (pred_x + (pred_w * 0.5)) * image_width
+            boxes[i][..., 3] = (pred_y + (pred_h * 0.5)) * image_height
+
+            # x1 = (pred_x - (pred_w * 0.5)) * image_width
+            # y1 = (pred_y - (pred_h * 0.5)) * image_height
+            # x0 = (pred_x + (pred_w * 0.5)) * image_width
+            # y0 = (pred_y + (pred_h * 0.5)) * image_height
+
+            # print("x1 shape", x1.shape)
+            # print("y1 shape", y1.shape)
+            # print("x0 shape", x0.shape)
+            # print("y0 shape", y0.shape)
+
+            # print("x1 shape", x1.shape)
+            # print("y1 shape", y1.shape)
+
+            # box_cord = np.concatenate([x1, y1, x0, y0], axis=-1)
+            # box_cord = np.reshape(box_cord, (gridH, gridW, num_anchors, 4))
+            # print("shape of box cord", box_cord.shape)
+            # boxes.append(box_cord)
+            i += 1
+
+        return [boxes, confidence_list, class_probs]
