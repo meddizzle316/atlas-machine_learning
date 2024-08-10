@@ -26,20 +26,20 @@ class Yolo():
         self.strides = [32, 16, 8]
 
     def sigmoid(self, x):
+        """sigmoid function to not use tf.sigmoid"""
         return 1 / (1 + np.exp(-1 * x))
 
     def process_outputs(self, outputs, image_size):
         """processing outputs into useful formats"""
-        boxes = [output[..., :4] for output in outputs] # len 3
+        boxes = [output[..., :4] for output in outputs]
         # boxes = []
         confidence_list = []
         class_probs = []
-        image_height = image_size[0]
-        image_width = image_size[1]
+        image_h = image_size[0]
+        image_w = image_size[1]
 
         i = 0
         for output in outputs:
-
 
             box = output
             x = box[..., 0]
@@ -54,14 +54,14 @@ class Yolo():
 
             class_probs.append(self.sigmoid(box[:, :, :, 5:]))
 
-            gridH = box.shape[0]
-            gridW = box.shape[1]
+            gh = box.shape[0]
+            gw = box.shape[1]
             num_anchors = output.shape[2]
             # print("this is shape", gridH, " of i", i)
             # print("this is the number of anchors", num_anchors)
 
-            cy = np.tile(np.arange(gridH, dtype=np.int32)[:, np.newaxis], [1, gridW])
-            cx = np.tile(np.arange(gridW, dtype=np.int32)[np.newaxis, :], [gridH, 1])
+            cy = np.tile(np.arange(gh, dtype=np.int32)[:, np.newaxis], [1, gw])
+            cx = np.tile(np.arange(gw, dtype=np.int32)[np.newaxis, :], [gh, 1])
 
             cy = np.repeat(cy[..., np.newaxis], num_anchors, axis=2)
             cx = np.repeat(cx[..., np.newaxis], num_anchors, axis=2)
@@ -78,19 +78,19 @@ class Yolo():
             # pred_w = (np.exp(w) * self.anchors[i, :, 0]) / image_width
             # pred_h = (np.exp(h) * self.anchors[i, :, 1]) / image_height
 
-            pred_x = (self.sigmoid(box[..., 0]) + cx) / gridW
-            pred_y = (self.sigmoid(box[..., 1]) + cy) / gridH
-            pred_w = (np.exp(box[..., 2]) * self.anchors[i, :, 0]) / image_width
-            pred_h = (np.exp(box[..., 3]) * self.anchors[i, :, 1]) / image_height
+            pred_x = (self.sigmoid(box[..., 0]) + cx) / gw
+            pred_y = (self.sigmoid(box[..., 1]) + cy) / gh
+            pred_w = (np.exp(box[..., 2]) * self.anchors[i, :, 0]) / image_w
+            pred_h = (np.exp(box[..., 3]) * self.anchors[i, :, 1]) / image_h
 
             # print("this is the shape of pred x", pred_x.shape)
             #
             # print("this is boxes 0", boxes[0])
             # print("shape of boxes 0", boxes[0].shape)
-            boxes[i][..., 0] = (pred_x - (pred_w * 0.5)) * image_width
-            boxes[i][..., 1] = (pred_y - (pred_h * 0.5)) * image_height
-            boxes[i][..., 2] = (pred_x + (pred_w * 0.5)) * image_width
-            boxes[i][..., 3] = (pred_y + (pred_h * 0.5)) * image_height
+            boxes[i][..., 0] = (pred_x - (pred_w * 0.5)) * image_w
+            boxes[i][..., 1] = (pred_y - (pred_h * 0.5)) * image_h
+            boxes[i][..., 2] = (pred_x + (pred_w * 0.5)) * image_w
+            boxes[i][..., 3] = (pred_y + (pred_h * 0.5)) * image_h
 
             # x1 = (pred_x - (pred_w * 0.5)) * image_width
             # y1 = (pred_y - (pred_h * 0.5)) * image_height
