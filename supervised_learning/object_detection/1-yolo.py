@@ -65,9 +65,6 @@ class Yolo():
             cy = np.arange(gw).reshape(1, gw)
             cy = np.repeat(cy, gh, axis=0).T
 
-            # cy = np.tile(np.arange(gh, dtype=np.int32)[:, np.newaxis], [1, gw])
-            # cx = np.tile(np.arange(gw, dtype=np.int32)[np.newaxis, :], [gh, 1])
-            #
             cy = np.repeat(cy[..., np.newaxis], num_anchors, axis=2)
             cx = np.repeat(cx[..., np.newaxis], num_anchors, axis=2)
             # cy = np.expand_dims(cy, -1)
@@ -83,7 +80,6 @@ class Yolo():
             # print("this is the anchor", self.anchors[i, :, 0], "at ", i)
             pred_w = (np.exp(box[..., 2]) * self.anchors[i, :, 0]) / image_w
             pred_h = (np.exp(box[..., 3]) * self.anchors[i, :, 1]) / image_h
-
 
             boxes[i][..., 0] = (pred_x - (pred_w * 0.5)) * image_w
             boxes[i][..., 1] = (pred_y - (pred_h * 0.5)) * image_h
