@@ -1,126 +1,112 @@
 #!/usr/bin/env python3
-"""
-   Module contains:
-   Class Yolo
-"""
+"""makes Yolov3 in Keras"""
 
-
-import tensorflow.keras as K
-import tensorflow.keras.backend as backend
 import tensorflow as tf
+from tensorflow import keras as K
 import numpy as np
 
 
 class Yolo():
-    """
-       Yolo v3 class for performing object detection.
-
-       Public Instance Attributes
-            model: the Darknet Keras model
-            class_names: a list of the class names for the model
-            class_t: the box score threshold for the initial filtering step
-            nms_t: the IOU threshold for non-max suppression
-            anchors: the anchor boxes
-    """
-
+    """Yolov3 in keras"""
     def __init__(self, model_path, classes_path, class_t, nms_t, anchors):
-        """
-           Init method for instanciating Yolo class.
-
-           Args:
-             model_path: path to Darknet keras model
-             classes_path: path to list of class names for
-               darknet model
-             class_t: float representing box score for initial
-               filtering step
-             nms_t: float representing IOU threshold for non-max
-               supression
-             anchors: numpy.ndarray - shape (outputs, anchor_boxes, 2)
-               containing all anchor boxes
-                 outputs: number of predictions made
-                 anchor_boxes: number of anchor boxes for each pred.
-                 2 => [anchor_box_width, anchor_box_height]
-        """
+        """init yolo"""
+        # setting darknet model
         self.model = K.models.load_model(model_path)
-        with open(classes_path, 'rt') as fd:
-            self.class_names = fd.read().rstrip('\n').split('\n')
+
+        # set class_names
+        with open(classes_path, 'r') as file:
+            self.class_names = []
+            for line in file:
+                self.class_names.append(line[:-1])
+
+        # basic instance variables
         self.class_t = class_t
         self.nms_t = nms_t
         self.anchors = anchors
+        self.strides = [32, 16, 8]
 
-    def sigmoid(self, arr):
-
-        return 1 / (1+np.exp(-1*arr))
+    def sigmoid(self, x):
+        """sigmoid function to not use tf.sigmoid"""
+        return 1 / (1 + np.exp(-1 * x))
 
     def process_outputs(self, outputs, image_size):
-        """
-           Args:
-             outputs: numpy.ndarray - contains predictions from model
-               for single image.
-             image_size: numpy.ndarray - images original
-               size (image_height, image_width)
-
-           Return:
-              tuple - (boxes, box_confidence, box_class_probs)
-              boxes: numpy.ndarray - (grid_height, grid_width, anchorboxes, 4)
-                 4 => (x1, y1, x2, y2)
-              box_confidence: numpy.ndarray - shape
-                (grid_height, grid_width, anchor_boxes, 1)
-              box_class_probs: numpy.ndarray - shape
-                (grid_height, grid_width, anchor_boxes, classes)
-                contains class probabilities for each output
-        """
-        IH, IW = image_size[0], image_size[1]
+        """processing outputs into useful formats"""
         boxes = [output[..., :4] for output in outputs]
-        box_confidence, class_probs = [], []
-        cornersX, cornersY = [], []
+        # boxes = []
+        confidence_list = []
+        class_probs = []
+        image_h = image_size[0]
+        image_w = image_size[1]
 
+        i = 0
         for output in outputs:
-            # Organize grid cells
-            gridH, gridW, anchors = output.shape[:3]
-            cx = np.arange(gridW).reshape(1, gridW)
-            cx = np.repeat(cx, gridH, axis=0)
-            cy = np.arange(gridW).reshape(1, gridW)
-            cy = np.repeat(cy, gridH, axis=0).T
 
-            cornersX.append(
-                np.repeat(cx[..., np.newaxis], anchors, axis=2)
-                )
-            cornersY.append(
-                np.repeat(cy[..., np.newaxis], anchors, axis=2)
-                )
-            # box confidence and class probability activations
-            box_confidence.append(self.sigmoid(output[..., 4:5]))
-            class_probs.append(self.sigmoid(output[..., 5:]))
+            box = output
+            x = box[..., 0]
+            y = box[..., 1]
+            w = box[..., 2]
+            h = box[..., 3]
+            confidence = box[:, :, :, 4:5]
+            # print("this is confidences", confidence)
+            sig_conf = self.sigmoid(confidence)
+            # print("this is sig confidence", sig_conf)
+            confidence_list.append(sig_conf)
 
-        inputW = IW
-        inputH = IH
+            class_probs.append(self.sigmoid(box[:, :, :, 5:]))
 
-        # Predicted boundary box
-        for x, box in enumerate(boxes):
-            bx = (
-                (self.sigmoid(box[..., 0])+cornersX[x])/outputs[x].shape[1]
-                )
-            by = (
-                (self.sigmoid(box[..., 1])+cornersY[x])/outputs[x].shape[0]
-                )
-            bw = (
-                (np.exp(box[..., 2])*self.anchors[x, :, 0])/inputW
-                )
-            bh = (
-                (np.exp(box[..., 3])*self.anchors[x, :, 1])/inputH
-                )
+            gh = box.shape[0]
+            gw = box.shape[1]
+            num_anchors = output.shape[2]
+            # print("this is shape", gridH, " of i", i)
+            # print("this is the number of anchors", num_anchors)
 
-            # x1
-            box[..., 0] = (bx - (bw * 0.5))*IW
-            # y1
-            box[..., 1] = (by - (bh * 0.5))*IH
-            # x2
-            box[..., 2] = (bx + (bw * 0.5))*IW
-            # y2
-            box[..., 3] = (by + (bh * 0.5))*IH
+            cx = np.arange(gw).reshape(1, gw)
+            cx = np.repeat(cx, gh, axis=0)
+            cy = np.arange(gw).reshape(1, gw)
+            cy = np.repeat(cy, gh, axis=0).T
 
-        return (boxes, box_confidence, class_probs)
+            # cy = np.tile(np.arange(gh, dtype=np.int32)[:, np.newaxis], [1, gw])
+            # cx = np.tile(np.arange(gw, dtype=np.int32)[np.newaxis, :], [gh, 1])
+            #
+            cy = np.repeat(cy[..., np.newaxis], num_anchors, axis=2)
+            cx = np.repeat(cx[..., np.newaxis], num_anchors, axis=2)
+            # cy = np.expand_dims(cy, -1)
+            # cx = np.expand_dims(cx, -1)
+
+            # pred_x = (self.sigmoid(x) + cx) / gridW
+            # pred_y = (self.sigmoid(y) + cy) / gridH
+            # pred_w = (np.exp(w) * self.anchors[i, :, 0]) / image_width
+            # pred_h = (np.exp(h) * self.anchors[i, :, 1]) / image_height
+
+            pred_x = (self.sigmoid(box[..., 0]) + cx) / gw
+            pred_y = (self.sigmoid(box[..., 1]) + cy) / gh
+            # print("this is the anchor", self.anchors[i, :, 0], "at ", i)
+            pred_w = (np.exp(box[..., 2]) * self.anchors[i, :, 0]) / image_w
+            pred_h = (np.exp(box[..., 3]) * self.anchors[i, :, 1]) / image_h
 
 
+            boxes[i][..., 0] = (pred_x - (pred_w * 0.5)) * image_w
+            boxes[i][..., 1] = (pred_y - (pred_h * 0.5)) * image_h
+            boxes[i][..., 2] = (pred_x + (pred_w * 0.5)) * image_w
+            boxes[i][..., 3] = (pred_y + (pred_h * 0.5)) * image_h
+            # boxes[i] = boxes[i].astype(np.int32)
+            # x1 = (pred_x - (pred_w * 0.5)) * image_width
+            # y1 = (pred_y - (pred_h * 0.5)) * image_height
+            # x0 = (pred_x + (pred_w * 0.5)) * image_width
+            # y0 = (pred_y + (pred_h * 0.5)) * image_height
 
+            # print("x1 shape", x1.shape)
+            # print("y1 shape", y1.shape)
+            # print("x0 shape", x0.shape)
+            # print("y0 shape", y0.shape)
+
+            # print("x1 shape", x1.shape)
+            # print("y1 shape", y1.shape)
+
+            # box_cord = np.concatenate([x1, y1, x0, y0], axis=-1)
+            # box_cord = np.reshape(box_cord, (gridH, gridW, num_anchors, 4))
+            # print("shape of box cord", box_cord.shape)
+            # boxes.append(box_cord)
+            i += 1
+
+        return [boxes, confidence_list, class_probs]
