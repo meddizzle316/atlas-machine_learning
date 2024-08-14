@@ -84,26 +84,26 @@ class Yolo():
 
         return [boxes, confidence_list, class_probs]
 
-    def filter_boxes(self, boxes_list, box_confidences, box_class_probs):
+    def filter_boxes(self, boxes_list, box_conf, class_probs):
         """filtering box inputs from preprocess inputs"""
-        boxes_np = boxes_list[0][..., :4]
-        boxes_np = boxes_np.flatten()
-        scores = []
-        conf = box_confidences[0][..., 0]
-        np.set_printoptions(suppress=True)
-        for x in range(1, len(boxes_list)):
-            xywh = boxes_list[x][..., :4].astype(np.float64)
-            xywh = xywh.flatten()
-            boxes_np = np.concatenate((boxes_np, xywh))
 
-        box_class_probs_np = box_class_probs[0][..., :]
-        box_class_probs_np = box_class_probs_np.flatten()
-        for x in range(1, len(box_class_probs)):
-            class_probs = box_class_probs[x][..., :]
-            class_probs = class_probs.flatten()
-            box_class_probs_np = np.concatenate((box_class_probs_np, class_probs))
+        above_t = None
+        box_scores = None
+        class_prob = None
 
-        boxes_np = boxes_np.reshape((-1, 4))
-        box_class_probs_np = box_class_probs_np.reshape((-1, 80))
-        box_class_probs_np = np.argmax(box_class_probs_np, axis=-1)
-        return boxes_np, box_class_probs_np, scores
+        box_score = [np.multiply(c, p) for c, p in zip(box_conf, class_probs)]
+        box_class = [np.argmax(score, axis=-1) for score in box_score]
+        box_score = [np.amax(score, axis=-1) for score in box_score]
+        mask = [score >= self.class_t for score in box_score]
+
+        for x, (box, mask) in enumerate(zip(boxes_list, mask)):
+            if x > 0:
+                above_t = np.concatenate((above_t, box[mask]), axis=0)
+                box_scores = np.concatenate((box_scores, box_score[x][mask]))
+                class_prob = np.concatenate((class_prob, box_class[x][mask]))
+            else:
+                above_t = box[mask]
+                box_scores = box_score[x][mask]
+                class_prob = box_class[x][mask]
+
+        return above_t, class_prob, box_scores
