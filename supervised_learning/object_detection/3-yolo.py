@@ -129,45 +129,31 @@ class Yolo():
     def non_max_suppression(self, filtered_boxes, box_classes, box_scores):
         """does non max suppression on boxes with scores >= self.class_t"""
 
-        iou_thresh = self.nms_t
-        box_predictions, predicted_box_classes = None, None
-        predicted_box_scores = None
-
-        keep = None
+        thr = self.nms_t
         new_classes = []
         new_scores = None
         new_boxes = None
         for cls in np.unique(box_classes):
             class_mask = tf.equal(box_classes, cls)
-            class_boxes = tf.boolean_mask(filtered_boxes, class_mask).numpy()
-            class_scores = tf.boolean_mask(box_scores, class_mask).numpy()
+            cls_b = tf.boolean_mask(filtered_boxes, class_mask).numpy()
+            cls_sc = tf.boolean_mask(box_scores, class_mask).numpy()
 
-            if class_boxes.shape[0] > 0:
-                indices = tf.image.non_max_suppression(tf.cast(class_boxes, np.float32), tf.cast(
-                    class_scores, np.float32), filtered_boxes.shape[0], iou_threshold=iou_thresh)
+            if cls_b.shape[0] > 0:
+                indices = tf.image.non_max_suppression(tf.cast(cls_b,
+                                                               np.float32),
+                                                       tf.cast(cls_sc,
+                                                               np.float32),
+                                                       filtered_boxes.shape[0],
+                                                       thr)
                 if new_scores is None and new_boxes is None:
-                    new_scores = class_scores[tf.cast(indices, tf.int32)]
-                    new_boxes = class_boxes[tf.cast(indices, tf.int32)]
+                    new_scores = cls_sc[tf.cast(indices, tf.int32)]
+                    new_boxes = cls_b[tf.cast(indices, tf.int32)]
                 else:
                     new_scores = tf.concat(
-                        (new_scores, class_scores[indices]), axis=0)
+                        (new_scores, cls_sc[indices]), axis=0)
                     new_boxes = tf.concat(
-                        (new_boxes, class_boxes[indices]), axis=0)
+                        (new_boxes, cls_b[indices]), axis=0)
                 for x in range(len(indices)):
                     new_classes.append(cls)
 
         return new_boxes.numpy(), np.array(new_classes), new_scores.numpy()
-
-        # non_max_idxs = tf.image.non_max_suppression(filtered_boxes, box_scores, filtered_boxes.shape[0], iou_thresh)
-        #
-        # run = tf.keras.backend.eval
-        # new_boxes = run(tf.cast(tf.gather(filtered_boxes, non_max_idxs), tf.int32))
-        # new_scores = run(tf.gather(box_scores, non_max_idxs))
-        # new_classes = run(tf.gather(box_classes, non_max_idxs))
-        #
-        # idx = np.argsort(new_classes)
-        # ord_class = new_classes[idx]
-        # ord_score = new_scores[idx]
-        # ord_boxes = filtered_boxes[idx]
-        #
-        # return ord_boxes, ord_class, ord_score
