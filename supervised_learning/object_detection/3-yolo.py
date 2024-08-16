@@ -137,7 +137,7 @@ class Yolo():
         new_classes = []
         new_scores = None
         new_boxes = None
-        for cls in range(80):
+        for cls in np.unique(box_classes):
             class_mask = tf.equal(box_classes, cls)
             class_boxes = tf.boolean_mask(filtered_boxes, class_mask).numpy()
             class_scores = tf.boolean_mask(box_scores, class_mask).numpy()
