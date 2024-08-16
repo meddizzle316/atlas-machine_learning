@@ -181,6 +181,7 @@ class Yolo():
             img_list.append(cv2.resize(image, (input_w, input_h), interpolation=cv2.INTER_CUBIC))
             img_org_size.append(image.shape[:2])
 
+        img_list /= 255.0
         image_arr = np.array(img_list)
         org_size_arr = np.array(img_org_size)
         return image_arr, org_size_arr
