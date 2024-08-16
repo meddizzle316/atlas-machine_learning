@@ -4,6 +4,8 @@
 from tensorflow import keras as K
 import numpy as np
 import tensorflow as tf
+import os
+import cv2
 
 
 class Yolo():
@@ -128,38 +130,57 @@ class Yolo():
 
     def non_max_suppression(self, filtered_boxes, box_classes, box_scores):
         """does non max suppression on boxes with scores >= self.class_t"""
-        rows, columns = filtered_boxes.shape
-        iou_thresh = self.nms_t
-        box_predictions, predicted_box_classes = None, None
-        predicted_box_scores = None
 
-        # sort_index = np.flip(box_scores.argsort())
-        # ord_box_classes = box_classes[sort_index]
-        # ord_filtered_boxes = filtered_boxes[sort_index]
-        #
-        # ious = self.box_iou_batch(ord_filtered_boxes, ord_filtered_boxes)
-        # ious = ious - np.eye(rows)
-        # print(ious.shape)
-        #
-        # keep = np.ones(rows, dtype=bool)
-        # for index, (iou, category) in enumerate(zip(ious, ord_box_classes)):
-        #     if not keep[index]:
-        #         continue
-        #
-        #     condition = (iou > iou_thresh) & (category == category)
-        #     keep = keep & ~condition
-        #
-        # test = np.ones(rows, dtype=bool)
-        # print(np.mean(keep == test))
-        # box_predictions = keep[sort_index.argsort()]
-        #
-        # return ord_filtered_boxes[box_predictions],
-        # ord_box_classes[box_predictions], box_scores[box_predictions]
+        thr = self.nms_t
+        new_classes = []
+        new_scores = None
+        new_boxes = None
+        for cls in np.unique(box_classes):
+            class_mask = tf.equal(box_classes, cls)
+            cls_b = tf.boolean_mask(filtered_boxes, class_mask).numpy()
+            cls_sc = tf.boolean_mask(box_scores, class_mask).numpy()
+
+            if cls_b.shape[0] > 0:
+                indices = tf.image.non_max_suppression(tf.cast(cls_b,
+                                                               np.float32),
+                                                       tf.cast(cls_sc,
+                                                               np.float32),
+                                                       filtered_boxes.shape[0],
+                                                       thr)
+                if new_scores is None and new_boxes is None:
+                    new_scores = cls_sc[tf.cast(indices, tf.int32)]
+                    new_boxes = cls_b[tf.cast(indices, tf.int32)]
+                else:
+                    new_scores = tf.concat(
+                        (new_scores, cls_sc[indices]), axis=0)
+                    new_boxes = tf.concat(
+                        (new_boxes, cls_b[indices]), axis=0)
+                for x in range(len(indices)):
+                    new_classes.append(cls)
+
+        return new_boxes.numpy(), np.array(new_classes), new_scores.numpy()
 
     def load_images(self, folder_path):
         """loading images"""
-        pass
+        img_path_list = os.listdir(folder_path)
+        img_list = []
+        img_full_path = []
+        for img in img_path_list:
+            full_name = os.path.join(folder_path, img)
+            img_list.append(cv2.imread(full_name))
+            img_full_path.append(full_name)
+        return img_list, img_full_path
 
     def preprocess_images(self, images):
-        """preprocess image"""
-        pass
+        """resizes images for yolov3"""
+        input_layer = self.model.input
+        input_w, input_h = input_layer.shape[1:3]
+        img_list = []
+        img_org_size = []
+        for image in images:
+            img_list.append(cv2.resize(image, (input_w, input_h), interpolation=cv2.INTER_CUBIC))
+            img_org_size.append(image.shape[:2])
+
+        image_arr = np.array(img_list)
+        org_size_arr = np.array(img_org_size)
+        return image_arr, org_size_arr
