@@ -145,17 +145,16 @@ class Yolo():
             if class_boxes.shape[0] > 0:
                 indices = tf.image.non_max_suppression(tf.cast(class_boxes, np.float32), tf.cast(
                     class_scores, np.float32), filtered_boxes.shape[0], iou_threshold=iou_thresh)
-                if new_boxes is None:
+                if new_scores is None and new_boxes is None:
                     new_scores = class_scores[tf.cast(indices, tf.int32)]
-                if new_boxes is None:
                     new_boxes = class_boxes[tf.cast(indices, tf.int32)]
-                for x in range(len(indices)):
-                    new_classes.append(cls)
                 else:
                     new_scores = tf.concat(
                         (new_scores, class_scores[indices]), axis=0)
                     new_boxes = tf.concat(
                         (new_boxes, class_boxes[indices]), axis=0)
+                for x in range(len(indices)):
+                    new_classes.append(cls)
 
         return new_boxes.numpy(), np.array(new_classes), new_scores.numpy()
 
