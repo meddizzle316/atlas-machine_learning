@@ -178,11 +178,15 @@ class Yolo():
         img_list = []
         img_org_size = []
         for image in images:
-            resize_image = cv2.resize(image, (input_w, input_h), interpolation=cv2.INTER_CUBIC)
-            resize_image = resize_image.astype(np.float32) / 255.0
+            resize_image = cv2.resize(image, (input_h, input_w),
+                                      interpolation=cv2.INTER_CUBIC)
             img_list.append(resize_image)
             img_org_size.append(image.shape[:2])
 
         image_arr = np.array(img_list)
+        image_arr = cv2.normalize(image_arr, None, alpha=0, beta=1,
+                                  norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+
         org_size_arr = np.array(img_org_size)
+
         return image_arr, org_size_arr
