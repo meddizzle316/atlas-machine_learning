@@ -179,7 +179,7 @@ class Yolo():
         img_org_size = []
         for image in images:
             resize_image = cv2.resize(image, (input_w, input_h), interpolation=cv2.INTER_CUBIC)
-            resize_image /= 255.0
+            resize_image = resize_image.astype(np.float32) / 255.0
             img_list.append(resize_image)
             img_org_size.append(image.shape[:2])
 
