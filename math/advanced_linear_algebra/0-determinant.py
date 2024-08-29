@@ -10,9 +10,15 @@ def getMatrixMinor(m, i, j):
 def determinant(matrix):
     """gets determinant of given matrix"""
 
-    if len(matrix) == 0:
+    try:
+        if len(matrix) == 0:
+            raise TypeError("matrix must be a list of lists")
+        for element in matrix:
+            if not isinstance(element, list):
+                raise TypeError("matrix must be a list of lists")
+    except Exception:
         raise TypeError("matrix must be a list of lists")
-    elif len(matrix[0]) == 0:
+    if len(matrix[0]) == 0:
         return 1
     elif len(matrix[0]) == 1:
         return matrix[0][0]
