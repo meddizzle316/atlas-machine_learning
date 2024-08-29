@@ -56,8 +56,7 @@ def minor(matrix):
     if len(matrix[0]) == 0:
         return [1]
     elif len(matrix[0]) == 1:
-        # return matrix[0][0] ??
-        return [1]
+        return matrix[0]
 
     # checking if matrix is square
     if len(matrix) != len(matrix[0]):
