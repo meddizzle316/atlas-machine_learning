@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+"""gets minor of given matrix"""
+
+
+def determinant(matrix):
+    """gets determinant of given matrix"""
+
+    try:
+        if len(matrix) == 0:
+            raise TypeError("matrix must be a list of lists")
+        for element in matrix:
+            if not isinstance(element, list):
+                raise TypeError("matrix must be a list of lists")
+    except Exception:
+        raise TypeError("matrix must be a list of lists")
+    if len(matrix[0]) == 0:
+        return 1
+    elif len(matrix[0]) == 1:
+        return matrix[0][0]
+
+    # checking if matrix is square
+    if len(matrix) != len(matrix[0]):
+        raise ValueError("matrix must be a square matrix")
+
+    if len(matrix) == 2:
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+
+    deter = 0
+    for c in range(len(matrix)):
+        deter += ((-1)**c) * matrix[0][c] * \
+            determinant(getMatrixMinor(matrix, 0, c))
+    return deter
+
+
+def getMatrixMinor(m, i, j):
+    """gets minor of given element of matrix"""
+    # return [row[:j] + row[j + 1:] for row in (m[:i] + m[i + 1:])]
+    minor = []
+    for row in (m[:i] + m[i + 1:]):
+        minor.append(row[:j] + row[j + 1:])
+    print(sum(minor[0]))
+    return sum(minor[0])
+
+
+def minor(matrix):
+    """gets minor matrix of given matrix"""
+    # minor_m = zeros_like(len(matrix))
+    try:
+        if len(matrix) == 0:
+            raise TypeError("matrix must be a list of lists")
+        for element in matrix:
+            if not isinstance(element, list):
+                raise TypeError("matrix must be a list of lists")
+    except Exception:
+        raise TypeError("matrix must be a list of lists")
+    if len(matrix[0]) == 0:
+        return [1]
+    elif len(matrix[0]) == 1:
+        # return matrix[0][0] ??
+        return [1]
+
+    # checking if matrix is square
+    if len(matrix) != len(matrix[0]):
+        raise ValueError("matrix must be a square matrix")
+
+    minor_matrix = []
+    for rows in range(len(matrix)):
+        row_matrix = []
+        for column in range(len(matrix[0])):
+            # iterating through each element of the matrix
+
+            # getting submatrix
+            submatrix = [[x for col, x in enumerate(
+                row) if col != column and i != rows]
+                         for i, row in enumerate(matrix)]
+
+            # removing empty elements
+            result = []
+            for sub in submatrix:
+                if sub:
+                    result.append(sub)
+
+            # getting determinant of submatrix
+            element_minor = determinant(result)
+            row_matrix.append(element_minor)
+        minor_matrix.append(row_matrix)
+
+    return minor_matrix
+
+    # minor_m = []
+    # if len(matrix) == 2:
+    #     for row in range(len(matrix)):
+    #         individual_row = []
+    #         for col in range(len(matrix)):
+    #             # minor_m[row] += getMatrixMinor(matrix, row, col)
+    #             individual_row.append(getMatrixMinor(matrix, row, col))
+    #         minor_m.append(individual_row)
+    #
+    #     return minor_m

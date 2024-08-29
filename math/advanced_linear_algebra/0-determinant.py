@@ -22,7 +22,9 @@ def determinant(matrix):
         return 1
     elif len(matrix[0]) == 1:
         return matrix[0][0]
-    elif len(matrix) != len(matrix[0]):
+
+    # checking if matrix is square
+    if len(matrix) != len(matrix[0]):
         raise ValueError("matrix must be a square matrix")
 
     if len(matrix) == 2:
