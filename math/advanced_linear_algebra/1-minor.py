@@ -57,8 +57,9 @@ def minor(matrix):
         return [[1]]
 
     # checking if matrix is square
-    if len(matrix) != len(matrix[0]):
-        raise ValueError("matrix must be a square matrix")
+    for row in matrix:
+        if len(matrix) != len(row):
+            raise ValueError("matrix must be a non-empty square matrix")
 
     minor_matrix = []
     for rows in range(len(matrix)):
