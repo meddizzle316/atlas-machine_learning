@@ -56,13 +56,14 @@ def minor(matrix):
     except Exception:
         raise TypeError("matrix must be a list of lists")
     if len(matrix[0]) == 0:
-        return [1]
+        return [[1]]
     elif len(matrix[0]) == 1:
-        return matrix[0]
+        return [[1]]
 
     # checking if matrix is square
-    if len(matrix) != len(matrix[0]):
-        raise ValueError("matrix must be a square matrix")
+    for row in matrix:
+        if len(matrix) != len(row):
+            raise ValueError("matrix must be a non-empty square matrix")
 
     minor_matrix = []
     for rows in range(len(matrix)):
