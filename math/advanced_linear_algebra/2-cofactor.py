@@ -91,8 +91,23 @@ def minor(matrix):
 
 def cofactor(matrix):
     """gets cofactor"""
+    if matrix == [[]]:
+        return 1
+    if (
+        matrix and matrix[0] and type(matrix) is list
+        and all(type(row) is list for row in matrix)
+    ):
+        # checking if matrix is square
+        for row in matrix:
+            if len(matrix) != len(row):
+                raise ValueError("matrix must be a non-empty square matrix")
+        if len(matrix) == 1:
+            return matrix[0][0]
+    else:
+        raise TypeError("matrix must be a list of lists")
     cofactors = []
     minor_matrix = minor(matrix)
+
     for row in range(len(matrix)):
         row_minor = []
         for column in range(len(matrix)):

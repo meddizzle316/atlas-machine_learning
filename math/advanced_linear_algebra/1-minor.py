@@ -85,13 +85,3 @@ def minor(matrix):
 
     return minor_matrix
 
-    # minor_m = []
-    # if len(matrix) == 2:
-    #     for row in range(len(matrix)):
-    #         individual_row = []
-    #         for col in range(len(matrix)):
-    #             # minor_m[row] += getMatrixMinor(matrix, row, col)
-    #             individual_row.append(getMatrixMinor(matrix, row, col))
-    #         minor_m.append(individual_row)
-    #
-    #     return minor_m
