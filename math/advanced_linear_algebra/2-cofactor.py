@@ -2,10 +2,6 @@
 """"gets cofactor"""
 
 
-#!/usr/bin/env python3
-"""gets minor of given matrix"""
-
-
 def determinant(matrix):
     """gets determinant of given matrix"""
 
@@ -74,7 +70,7 @@ def minor(matrix):
             # getting submatrix
             submatrix = [[x for col, x in enumerate(
                 row) if col != column and i != rows]
-                         for i, row in enumerate(matrix)]
+                for i, row in enumerate(matrix)]
 
             # removing empty elements
             result = []
@@ -112,7 +108,8 @@ def cofactor(matrix):
     for row in range(len(matrix)):
         row_minor = []
         for column in range(len(matrix)):
-            row_minor.append(((-1) **(row + column)) * minor_matrix[row][column] )
+            row_minor.append(((-1) ** (row + column)) *
+                             minor_matrix[row][column])
         cofactors.append(row_minor)
 
     return cofactors

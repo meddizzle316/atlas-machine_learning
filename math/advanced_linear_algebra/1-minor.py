@@ -70,7 +70,7 @@ def minor(matrix):
             # getting submatrix
             submatrix = [[x for col, x in enumerate(
                 row) if col != column and i != rows]
-                         for i, row in enumerate(matrix)]
+                for i, row in enumerate(matrix)]
 
             # removing empty elements
             result = []
@@ -84,4 +84,3 @@ def minor(matrix):
         minor_matrix.append(row_matrix)
 
     return minor_matrix
-
