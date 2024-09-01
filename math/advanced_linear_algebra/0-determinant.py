@@ -10,23 +10,16 @@ def getMatrixMinor(m, i, j):
 def determinant(matrix):
     """gets determinant of given matrix"""
 
-    try:
-        if len(matrix) == 0:
-            raise TypeError("matrix must be a list of lists")
-        for element in matrix:
-            if not isinstance(element, list):
-                raise TypeError("matrix must be a list of lists")
-    except Exception:
-        raise TypeError("matrix must be a list of lists")
-    if len(matrix[0]) == 0:
+    if matrix == [[]]:
         return 1
-    elif len(matrix[0]) == 1:
-        return matrix[0][0]
-
-    # checking if matrix is square
-    for row in matrix:
-        if len(matrix) != len(row):
-            raise ValueError("matrix must be a square matrix")
+    if (
+        matrix and matrix[0] and type(matrix) is list
+        and all(type(row) is list for row in matrix)
+    ):
+        # checking if matrix is square
+        for row in matrix:
+            if len(matrix) != len(row):
+                raise ValueError("matrix must be a square matrix")
 
     if len(matrix) == 2:
         return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
