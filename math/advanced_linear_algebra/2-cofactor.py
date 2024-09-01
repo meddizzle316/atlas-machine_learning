@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+""""gets cofactor"""
+
+
+#!/usr/bin/env python3
 """gets minor of given matrix"""
 
 
@@ -84,13 +88,15 @@ def minor(matrix):
 
     return minor_matrix
 
-    # minor_m = []
-    # if len(matrix) == 2:
-    #     for row in range(len(matrix)):
-    #         individual_row = []
-    #         for col in range(len(matrix)):
-    #             # minor_m[row] += getMatrixMinor(matrix, row, col)
-    #             individual_row.append(getMatrixMinor(matrix, row, col))
-    #         minor_m.append(individual_row)
-    #
-    #     return minor_m
+
+def cofactor(matrix):
+    """gets cofactor"""
+    cofactors = []
+    minor_matrix = minor(matrix)
+    for row in range(len(matrix)):
+        row_minor = []
+        for column in range(len(matrix)):
+            row_minor.append(((-1) **(row + column)) * minor_matrix[row][column] )
+        cofactors.append(row_minor)
+
+    return cofactors
