@@ -24,8 +24,9 @@ def determinant(matrix):
         return matrix[0][0]
 
     # checking if matrix is square
-    if len(matrix) != len(matrix[0]):
-        raise ValueError("matrix must be a square matrix")
+    for row in matrix:
+        if len(matrix) != len(row):
+            raise ValueError("matrix must be a square matrix")
 
     if len(matrix) == 2:
         return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
