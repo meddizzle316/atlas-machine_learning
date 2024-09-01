@@ -91,8 +91,7 @@ def minor(matrix):
 
 def cofactor(matrix):
     """gets cofactor"""
-    if matrix == [[]]:
-        return 1
+
     if (
         matrix and matrix[0] and type(matrix) is list
         and all(type(row) is list for row in matrix)
