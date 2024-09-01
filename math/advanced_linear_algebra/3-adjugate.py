@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """gets the adjugate of a matrix"""
 
+
 def determinant(matrix):
     """gets determinant of given matrix"""
 
@@ -113,8 +114,12 @@ def cofactor(matrix):
 
     return cofactors
 
+
 def transpose(matrix):
+    """transposes a matrix"""
     return [[row[i] for row in matrix] for i in range(len(matrix[0]))]
+
+
 def adjugate(matrix):
     """gets adjugate"""
 
