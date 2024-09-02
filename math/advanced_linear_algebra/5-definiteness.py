@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 import numpy as np
-"""gets definiteness of matrix"""
+"""gets definiteness of matrix 
+using numpy"""
 
 
 def definiteness(matrix):
-    """gets definitiness of matrix"""
-    # check if numpy array
+    """gets definitiness of matrix
+    using numpy"""
     if not isinstance(matrix, np.ndarray):
         raise TypeError("matrix must be a numpy.ndarray")
 
-    # check if empty
     if matrix.size == 0:
         return None
 
-    # check if square/symmetric ??
     try:
         if not np.allclose(matrix, matrix.T):
             return None
