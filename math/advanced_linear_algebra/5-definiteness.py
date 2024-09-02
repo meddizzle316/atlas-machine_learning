@@ -14,9 +14,11 @@ def definiteness(matrix):
         return None
 
     # check if square/symmetric ??
-    for row in matrix:
-        if len(row) != len(matrix):
+    try:
+        if not np.allclose(matrix, matrix.T):
             return None
+    except ValueError:
+        return None
 
     eigenvalues = np.linalg.eigh(matrix)[0]
 
