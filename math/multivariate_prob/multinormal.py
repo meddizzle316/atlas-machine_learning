@@ -12,7 +12,8 @@ def mean_cov(X):
     n, d = X.shape
     if n < 2:
         raise ValueError("data must contain multiple data points")
-
+    mean = np.mean(X, axis=-1)
+    print(mean)
     cov = np.zeros((d, d))
     for i in range(d):
 
@@ -23,13 +24,13 @@ def mean_cov(X):
             cov[i, j] = np.sum((X[:, i] - mean_i) *
                                (X[:, j] - mean_j)) / (n - 1)
 
-    mean = np.mean(X, axis=0)
     resh_mean = np.reshape(mean, (1, -1))
     return resh_mean, cov
+
+
 class MultiNormal():
     def __init__(self, data):
         """init function"""
         mean, cov = mean_cov(data)
         self.mean = mean
         self.cov = cov
-
