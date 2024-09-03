@@ -6,12 +6,12 @@ import numpy as np
 def mean_cov(X):
     """calculates mean and covariance of given dataset"""
     if not isinstance(X, np.ndarray):
-        raise TypeError("X must be a 2D numpy.ndarray")
+        raise TypeError("data must be a 2D numpy.ndarray")
     if not X.ndim >= 2:
-        raise TypeError("X must be a 2D numpy.ndarray")
+        raise TypeError("data must be a 2D numpy.ndarray")
     n, d = X.shape
     if n < 2:
-        raise ValueError("X must contain multiple data points")
+        raise ValueError("data must contain multiple data points")
 
     cov = np.zeros((d, d))
     for i in range(d):
