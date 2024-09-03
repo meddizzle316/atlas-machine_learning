@@ -24,7 +24,6 @@ def mean_cov(X):
             cov[i, j] = np.sum((X[:, i] - mean_i) *
                                (X[:, j] - mean_j)) / (n - 1)
 
-
     return resh_mean, cov
 
 
