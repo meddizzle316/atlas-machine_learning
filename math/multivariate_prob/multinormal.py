@@ -10,10 +10,10 @@ def mean_cov(X):
     if not X.ndim >= 2:
         raise TypeError("data must be a 2D numpy.ndarray")
     n, d = X.shape
-    if n < 2:
+    if d < 2:
         raise ValueError("data must contain multiple data points")
     mean = np.mean(X, axis=-1)
-    print(mean)
+    resh_mean = np.reshape(mean, (-1, 1))
     cov = np.zeros((d, d))
     for i in range(d):
 
@@ -24,7 +24,7 @@ def mean_cov(X):
             cov[i, j] = np.sum((X[:, i] - mean_i) *
                                (X[:, j] - mean_j)) / (n - 1)
 
-    resh_mean = np.reshape(mean, (1, -1))
+
     return resh_mean, cov
 
 
