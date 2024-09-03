@@ -32,8 +32,14 @@ def mean_cov(X):
 
 class MultiNormal():
     def __init__(self, data):
-        """init function for MultNormal class
-        sets mean and covariance of given dataset"""
+        """
+        init function for MultNormal class
+        sets mean and covariance of given dataset
+        using the Multinormal distribution
+
+        Args:
+            data: given dataset; numpy type
+        """
         mean, cov = mean_cov(data)
         self.mean = mean
         self.cov = cov
