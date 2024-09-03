@@ -31,6 +31,7 @@ def mean_cov(X):
 
 
 class MultiNormal():
+    """class for multinormal distribution"""
     def __init__(self, data):
         """
         init function for MultNormal class
