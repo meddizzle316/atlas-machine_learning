@@ -92,7 +92,7 @@ def intersection(x, n, P, Pr):
         raise TypeError("Pr must be a numpy.ndarray with the same shape as P")
     if not np.all((0 <= Pr) & (Pr <= 1)):
         raise ValueError("All values in Pr must be in the range [0, 1]")
-    if not np.sum(Pr) == 1:
+    if not np.isclose(np.sum(Pr), 1, rtol=1e-05, atol=1e-08, equal_nan=False):
         raise ValueError("Pr must sum to 1")
 
     likelihoods = likelihood(x, n, P)
