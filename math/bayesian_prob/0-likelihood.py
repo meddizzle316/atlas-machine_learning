@@ -11,12 +11,16 @@ def pmf(k, n, p):
     first_factor = np.math.factorial(n) / (np.math.factorial(n - k) * (np.math.factorial(k)))
     second_factor = (p ** k) * ((1 - p) ** (n - k))
     return first_factor * second_factor
+
+
 def likelihood(x, n, P):
     """gets likelihood of x for n trials with P probability (as threshold)"""
     if not isinstance(n, int):
         raise ValueError("n must be a positive integer")
     if n <= 0:
         raise ValueError("n must be a positive integer")
+    if not isinstance(x, int):
+        raise ValueError("x must be an integer that is greater than or equal to 0")
     if x < 0:
         raise ValueError("x must be an integer that is greater than or equal to 0")
     if x > n:
