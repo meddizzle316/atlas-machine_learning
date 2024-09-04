@@ -94,6 +94,7 @@ def intersection(x, n, P, Pr):
         raise ValueError("All values in Pr must be in the range [0, 1]")
     if not np.isclose(np.sum(Pr), 1, rtol=1e-05, atol=1e-08, equal_nan=False):
         raise ValueError("Pr must sum to 1")
+    P = np.sort(P)
 
     likelihoods = likelihood(x, n, P)
     marginalized_likelihood = (likelihoods * Pr).sum()
