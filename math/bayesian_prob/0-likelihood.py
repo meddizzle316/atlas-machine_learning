@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""calculates likelihood using binomial pmf"""
+"""
+calculates likelihood using binomial pmf
+has pmf and baynesian likelihood functions
+baynesian depends on binomial pmf function
+"""
 import numpy as np
 
 
@@ -19,7 +23,7 @@ def pmf(k, n, p):
 
 
 def likelihood(x, n, P):
-    """gets likelihood of x for n trials with P probability (as threshold)
+    """ gets likelihood of x for n trials with P probability (as threshold)
     ARgs
     X: the given number
     n: number of trials
