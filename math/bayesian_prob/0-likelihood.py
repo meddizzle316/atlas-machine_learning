@@ -13,6 +13,8 @@ def pmf(k, n, p):
     return first_factor * second_factor
 def likelihood(x, n, P):
     """gets likelihood of x for n trials with P probability (as threshold)"""
+    if not isinstance(n, int):
+        raise ValueError("n must be a positive integer")
     if n <= 0:
         raise ValueError("n must be a positive integer")
     if x < 0:
