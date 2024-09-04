@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-import numpy as np
 """calculates likelihood using binomial pmf"""
+import numpy as np
 
 
 def pmf(k, n, p):
