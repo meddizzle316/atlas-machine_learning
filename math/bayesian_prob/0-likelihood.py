@@ -37,6 +37,6 @@ def likelihood(x, n, P):
         prob = pmf(x, n, p)
         scratch_likeli.append(prob)
     np_array = np.array(scratch_likeli)
-    np_likeli = np.array_str(np_array, precision=8)
-    return np_likeli
+    # np_likeli = np.array_str(np_array, precision=8)
+    return np_array
 
