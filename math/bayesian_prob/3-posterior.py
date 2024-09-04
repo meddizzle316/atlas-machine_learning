@@ -148,6 +148,7 @@ def marginal(x, n, P, Pr):
     poster = (likelihoods * Pr) / marginalized_likelihood
     return poster
 
+
 def posterior(x, n, P, Pr):
     """Calculates the posterior probability using NumPy.
 
