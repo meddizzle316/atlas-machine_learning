@@ -25,7 +25,7 @@ def pca(X, ndim):
     covariance_matrix = np.cov(X, rowvar=False)
 
     # get eigenvectors
-    eigenvalues, eigenvectors = np.linalg.eig(covariance_matrix)
+    eigenvalues, eigenvectors = np.linalg.eigh(covariance_matrix)
 
     # sort eigenvectors
     idx = np.argsort(eigenvalues)[::-1]
@@ -38,5 +38,4 @@ def pca(X, ndim):
 
     reduced_data = np.matmul(X, eigenvectors[:, :ndim])
 
-    # total_explained_variance = sum(explained_variance[:k])
     return np.real(reduced_data)
