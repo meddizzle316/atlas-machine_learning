@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """performs pca on given nd array"""
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 def pca(X, var=0.95):
