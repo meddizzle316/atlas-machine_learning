@@ -37,5 +37,5 @@ def pca(X, var=0.95):
     cumulative_variance = np.cumsum(eigenvalues) / total_variance
     num_components = np.argmax(cumulative_variance >= var) + 1
 
-    W = -(eigenvectors[:, :num_components + 1])
+    W = (eigenvectors[:, :num_components + 1])
     return W
