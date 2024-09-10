@@ -9,14 +9,17 @@ def pca(X, var=0.95):
         n is the number of data points
         d is the number of dimensions in each point
         all dimensions have a mean of 0 across all data points
-    var is the fraction of the variance that the PCA transformation should maintain
+    var is the fraction of the variance that the PCA trans should
+    maintain
 
-    Returns: the weights matrix, W, that maintains var fraction of X‘s original variance
-    W is a numpy.ndarray of shape (d, nd) where nd is the new dimensionality of the transformed X"""
+    Returns: weights matrix, W, has var fraction of X‘s original variance
+    W is a numpy.ndarray of shape (d, nd) where
+    nd is the new dimensionality of the transformed X"""
 
     n, d = X.shape
     # standardize data
-    X = (X - X.mean(axis=0))  # either that or X - X.mean(), not sure which to use
+    # either that or X - X.mean(), not sure which to use
+    X = (X - X.mean(axis=0))
 
     # get covariance matrix
     covariance_matrix = np.cov(X, rowvar=False)
@@ -28,8 +31,6 @@ def pca(X, var=0.95):
     idx = np.argsort(eigenvalues)[::-1]
     eigenvalues = eigenvalues[idx]
     eigenvectors = eigenvectors[:, idx]
-
-
 
     # get new number of components
     total_variance = np.sum(eigenvalues)
