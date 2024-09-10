@@ -39,4 +39,4 @@ def pca(X, ndim):
     reduced_data = np.matmul(X, eigenvectors[:, :ndim])
 
     # total_explained_variance = sum(explained_variance[:k])
-    return -np.real(reduced_data)
+    return np.real(reduced_data)
