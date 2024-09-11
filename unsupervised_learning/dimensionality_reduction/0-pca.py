@@ -25,7 +25,7 @@ def pca(X, var=0.95):
     covariance_matrix = np.cov(X, rowvar=False)
 
     # get eigenvectors
-    eigenvalues, eigenvectors = np.linalg.eig(covariance_matrix)
+    eigenvalues, eigenvectors = np.linalg.eigh(covariance_matrix)
 
     # sort eigenvectors
     idx = np.argsort(eigenvalues)[::-1]
