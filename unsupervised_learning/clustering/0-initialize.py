@@ -23,9 +23,8 @@ def initialize(X, k):
         Returns: a numpy.ndarray of shape (k, d) containing the initialized
         centroids for each cluster, or None on failure
     """
-    centroids = []
-    m = np.shape(X)[0]
-    for _ in range(k):
-        r = int(np.random.uniform(0, m-1))
-        centroids.append(X[r])
-    return np.array(centroids)
+    m, d = X.shape
+    min_val = np.min(X, axis=0)
+    max_val = np.max(X, axis=0)
+    centroids = np.random.uniform(min_val, max_val, size=(k, d))
+    return centroids

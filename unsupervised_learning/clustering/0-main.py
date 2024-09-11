@@ -13,6 +13,8 @@ if __name__ == "__main__":
     e = np.random.multivariate_normal([20, 70], [[16, 0], [0, 16]], size=50)
     X = np.concatenate((a, b, c, d, e), axis=0)
     np.random.shuffle(X)
+    print(X)
+    print("this is the shape of X", X.shape)
     plt.scatter(X[:, 0], X[:, 1], s=10)
     plt.show()
     print(initialize(X, 5))
