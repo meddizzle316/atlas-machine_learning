@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """intra variance of dataset"""
 import numpy as np
 
