@@ -4,8 +4,10 @@ import numpy as np
 
 
 def variance(X, C):
-    """X is a numpy.ndarray of shape (n, d) containing the data set
-        C is a numpy.ndarray of shape (k, d) containing the centroid means of each cluster
+    """X is a numpy.ndarray of shape (n, d)
+    containing the data set
+        C is a numpy.ndarray of shape (k, d)
+        containing the centroid means of each cluster
          You are not allowed to use any loops
         Returns: var, or None on failure
         var is the total variance"""
@@ -14,7 +16,6 @@ def variance(X, C):
         k, d1 = C.shape
     except Exception:
         return None
-
 
     # Calculate squared distances
     distances = np.min(np.linalg.norm(X[:, None] - C, axis=2), axis=1)
@@ -26,4 +27,3 @@ def variance(X, C):
     variance = np.sum(squared_distances)
 
     return variance
-
