@@ -8,16 +8,22 @@ def kmeans(X, k, iterations=1000):
            n is the number of data points
            d is the number of dimensions of each data point
        k is a positive integer containing the number of clusters
-       iterations is a positive integer containing the maximum number of iterations that should be performed
-       If no change in the cluster centroids occurs between iterations, your function should return
-       Initialize the cluster centroids using a multivariate uniform distribution (based on0-initialize.py)
-       If a cluster contains no data points during the update step, reinitialize its centroid
+       iterations is a positive integer containing the maximum
+       number of iterations that should be performed
+       If no change in the cluster centroids occurs between
+       iterations, your function should return
+       Initialize the cluster centroids using a multivariate
+       uniform distribution (based on0-initialize.py)
+       If a cluster contains no data points during the update
+       step, reinitialize its centroid
        You should use numpy.random.uniform exactly twice
        You may use at most 2 loops
 
        Returns: C, clss, or None, None on failure
-           C is a numpy.ndarray of shape (k, d) containing the centroid means for each cluster
-           clss is a numpy.ndarray of shape (n,) containing the index of the cluster in C that each data point belongs to"""
+           C is a numpy.ndarray of shape (k, d) containing the
+           centroid means for each cluster
+           clss is a numpy.ndarray of shape (n,) containing the
+           index of the cluster in C that each data point belongs to"""
 
     if not isinstance(k, int):
         return None, None
@@ -40,7 +46,14 @@ def kmeans(X, k, iterations=1000):
     labels = np.random.randint(low=0, high=k, size=m)
 
     for i in range(iterations):
-        distances = np.linalg.norm(np.expand_dims(X, 2) - np.expand_dims(centroids.T, 0), axis=1)
+        distances = np.linalg.norm(
+            np.expand_dims(
+                X,
+                2) -
+            np.expand_dims(
+                centroids.T,
+                0),
+            axis=1)
         new_labels = np.argmin(distances, axis=1)
 
         if (labels == new_labels).all():
@@ -53,7 +66,8 @@ def kmeans(X, k, iterations=1000):
             for c in range(k):
                 centroids[c] = np.mean(X[labels == c], axis=0)
                 if np.any(np.isnan(centroids[c])):
-                    new_clusters = np.random.uniform(min_val, max_val, size=centroids[c].shape)
+                    new_clusters = np.random.uniform(
+                        min_val, max_val, size=centroids[c].shape)
                     centroids[c] = new_clusters
 
     return centroids, labels
