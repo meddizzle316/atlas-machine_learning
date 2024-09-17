@@ -23,6 +23,10 @@ def initialize(X, k):
         Returns: a numpy.ndarray of shape (k, d) containing the initialized
         centroids for each cluster, or None on failure
     """
+    if k <= 0 or not isinstance(k, int):
+        return None
+    if not isinstance(X, np.ndarray) or X.ndim < 2:
+        return None
     m, d = X.shape
     min_val = np.min(X, axis=0)
     max_val = np.max(X, axis=0)
