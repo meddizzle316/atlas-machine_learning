@@ -6,7 +6,7 @@ import numpy as np
 def kmeans(X, k, iterations=1000):
     """X is a numpy.ndarray of shape (n, d) containing the dataset
            n is the number of data points
-           d is the number of dimensions for each data point
+           d is the number of dimensions of each data point
        k is a positive integer containing the number of clusters
        iterations is a positive integer containing the maximum number of iterations that should be performed
        If no change in the cluster centroids occurs between iterations, your function should return
@@ -40,9 +40,8 @@ def kmeans(X, k, iterations=1000):
     labels = np.random.randint(low=0, high=k, size=m)
 
     for i in range(iterations):
-        distances = np.array(
-            [np.linalg.norm(X - c, axis=1) for c in centroids])
-        new_labels = np.argmin(distances, axis=0)
+        distances = np.linalg.norm(np.expand_dims(X, 2) - np.expand_dims(centroids.T, 0), axis=1)
+        new_labels = np.argmin(distances, axis=1)
 
         if (labels == new_labels).all():
             labels = new_labels
@@ -63,22 +62,22 @@ def kmeans(X, k, iterations=1000):
 def initialize(X, k):
     """initialize cluster centriods for k-means
         X is a numpy.ndarray of shape (n, d) containing the dataset
-        that will be used for K-means clustering
+        that will be used of K-means clustering
             n is the number of data points
-            d is the number of dimensions for each data point
+            d is the number of dimensions of each data point
         k is a positive integer containing the number of clusters
 
         The cluster centroids should be initialized with a multivariate
         uniform distribution along each dimension in d:
-        The minimum values for the distribution should be the minimum
+        The minimum values of the distribution should be the minimum
         values of X along each dimension in d
-        The maximum values for the distribution should be the maximum
+        The maximum values of the distribution should be the maximum
         values of X along each dimension in d
         You should use numpy.random.uniform exactly once
         You are not allowed to use any loops
 
         Returns: a numpy.ndarray of shape (k, d) containing the initialized
-        centroids for each cluster, or None on failure
+        centroids of each cluster, or None on failure
     """
     if not isinstance(k, int):
         return None
