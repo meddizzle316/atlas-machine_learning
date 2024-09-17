@@ -14,6 +14,8 @@ def variance(X, C):
         k, d1 = C.shape
     except Exception:
         return None
+    if not X.ndim == 2 or C.ndim == 2:
+        return None
 
 
     # Calculate squared distances
