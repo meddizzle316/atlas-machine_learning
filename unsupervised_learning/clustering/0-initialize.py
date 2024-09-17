@@ -27,7 +27,10 @@ def initialize(X, k):
         return None
     if not isinstance(X, np.ndarray) or X.ndim < 2:
         return None
-    m, d = X.shape
+    try:
+        m, d = X.shape
+    except ValueError:
+        return None
     min_val = np.min(X, axis=0)
     max_val = np.max(X, axis=0)
     centroids = np.random.uniform(min_val, max_val, size=(k, d))
