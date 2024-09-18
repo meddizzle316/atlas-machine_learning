@@ -8,7 +8,6 @@ def initialize(X, k):
     """X is a numpy.ndarray of shape (n, d)
     containing the data set
     k is a positive integer containing the number of clusters
-    You are not allowed to use any loops
 
     Returns: pi, m, S, or None, None, None on failure
         pi is a numpy.ndarray of shape (k,) containing
