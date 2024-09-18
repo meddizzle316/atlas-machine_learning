@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""uses scipy to run kmeans"""
+"""uses modules to run kmeans"""
 import numpy as np
 import sklearn.cluster
 
