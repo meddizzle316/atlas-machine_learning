@@ -19,7 +19,6 @@ def pdf(x, m, s):
     # mean = np.mean(x)
     mean = m
     stddev = np.std(x)
-    print('this is the std', stddev)
 
     """gets pdf for given x"""
     first_factor = 1 / (((stddev ** 2) * (2 * pi)) ** 0.5)
