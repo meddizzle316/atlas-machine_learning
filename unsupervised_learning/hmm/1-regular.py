@@ -2,6 +2,7 @@
 """gets stead state probability of a regular markov chain"""
 import numpy as np
 
+
 def regular(p):
     """determines steady state probability"""
     if not isinstance(p, np.ndarray):
@@ -21,7 +22,7 @@ def regular(p):
     dim = p.shape[0]
     q = (p - np.eye(dim))
     ones = np.ones(dim)
-    q = np.c_[q,ones]
+    q = np.c_[q, ones]
     QTQ = np.dot(q, q.T)
     if np.linalg.det(QTQ) == 0:
         return None

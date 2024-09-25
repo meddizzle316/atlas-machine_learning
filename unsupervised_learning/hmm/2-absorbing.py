@@ -6,7 +6,6 @@ import numpy as np
 def absorbing(p):
     """checks for absorbing states"""
 
-
     # if not isinstance(p, np.ndarray):
     #     return None
     n, m = p.shape
