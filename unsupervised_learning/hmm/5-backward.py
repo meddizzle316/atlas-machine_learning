@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 """does backward alg for hidden markov model"""
-from turtledemo.chaos import jumpto
-
 import numpy as np
 
 
