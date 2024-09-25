@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """forward alg for hidden markov model"""
-from asyncio.trsock import TransportSocket
-
 import numpy as np
+
 
 def forward(Observation, Emission, Transition, Initial):
     """forward alg for hidden markov model"""
