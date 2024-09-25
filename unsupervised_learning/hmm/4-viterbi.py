@@ -18,7 +18,8 @@ def viterbi(Observation, Emission, Transition, Initial):
 
     for t in range(1, T):
         for i in range(N):
-            delta[i, t] = np.max(delta[:, t-1] * Transition[:, i] * Emission[i, Observation[t]])
+            delta[i, t] = np.max(delta[:, t-1] * Transition[:, i] *
+                                 Emission[i, Observation[t]])
             psi[i, t] = np.argmax(delta[:, t-1] * Transition[:, i])
 
     path = [np.argmax(delta[:, T-1])]
