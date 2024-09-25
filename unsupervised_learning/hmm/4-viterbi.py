@@ -6,7 +6,6 @@ import numpy as np
 def viterbi(Observation, Emission, Transition, Initial):
     """does viterbi alg"""
 
-
     T = len(Observation)
     N = Emission.shape[0]
     M = Emission.shape[1]
