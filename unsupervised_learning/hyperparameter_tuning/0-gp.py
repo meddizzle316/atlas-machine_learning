@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """represents a noiseless 1d Gaussian process"""
 import numpy as np
-from dateutil.rrule import M365RANGE
-from numpy.core.numeric import newaxis
 
 
 class GaussianProcess:
