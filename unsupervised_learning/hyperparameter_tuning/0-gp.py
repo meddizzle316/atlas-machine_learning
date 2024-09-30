@@ -23,6 +23,6 @@ class GaussianProcess:
         for i in range(m):
             for j in range(n):
                 K[i, j] = self.sigma_f**2 * \
-                    np.exp(-(np.linalg.norm(X1[i] - X2[j]) ** 2) /
-                           (2 * self.l**2))
+                    np.exp(-(np.linalg.norm(X1[i] - X2[j]) ** 2)
+                           / (2 * self.l**2))
         return K
