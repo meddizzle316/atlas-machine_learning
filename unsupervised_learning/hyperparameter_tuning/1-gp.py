@@ -29,7 +29,7 @@ class GaussianProcess:
         return K
 
     def predict(self, X_s):
-        """"""
+        """predicting std dev and mean"""
 
         K_s = self.kernel(X_s, self.X)
 
@@ -37,6 +37,5 @@ class GaussianProcess:
 
         K_ss = self.kernel(X_s, X_s)
         sigma_s = np.diag(K_ss.T - K_s @ np.linalg.inv(self.K) @ K_s.T)
-
 
         return mu_s.flatten(), sigma_s.flatten()
