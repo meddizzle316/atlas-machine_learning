@@ -43,7 +43,7 @@ class GaussianProcess:
         """updates a gaussian process"""
 
         self.X = np.append(self.X, X_new)
-        self.X = self.X.reshape(3, 1)
+        self.X = self.X.reshape(-1, 1)
         self.Y = np.append(self.Y, Y_new)
-        self.Y = self.Y.reshape(3, 1)
+        self.Y = self.Y.reshape(-1, 1)
         self.K = self.kernel(self.X, self.X)
