@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """updated Gaussian Process model"""
 import numpy as np
-from scipy.constants import sigma
 
 
 class GaussianProcess:
