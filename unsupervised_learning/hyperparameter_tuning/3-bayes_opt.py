@@ -16,6 +16,6 @@ class BayesianOptimization:
         self.xsi = xsi
         self.minimize= minimize
         min, max = bounds
-        self.X_s = np.random.uniform(min, max, (ac_samples, 1))
+        self.X_s = np.linspace(min, max, ac_samples).reshape(-1, 1)
 
 
