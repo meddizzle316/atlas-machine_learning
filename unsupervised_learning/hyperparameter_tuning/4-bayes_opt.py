@@ -4,7 +4,6 @@ performs bayesian optimization on a noiseless
 1d gaussian process
 """
 import numpy as np
-from numpy.array_api import reshape
 from scipy.stats import norm
 
 GP = __import__('2-gp').GaussianProcess
