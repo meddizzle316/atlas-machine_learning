@@ -17,14 +17,15 @@ class GaussianProcess:
 
     def kernel(self, X1, X2):
         """initializes covariance matrix with RBF kernel"""
-        m = X1.shape[0]
-        n = X2.shape[0]
+        m, _ = X1.shape
+        n, _ = X2.shape
         K = np.zeros((m, n))
         for i in range(m):
             for j in range(n):
-                K[i, j] = self.sigma_f**2 * \
-                    np.exp(-(np.linalg.norm(X1[i] - X2[j]) ** 2)
-                           / (2 * self.l**2))
+                K[i, j] = (self.sigma_f ** 2 * np.exp
+                           (-(np.linalg.norm
+                              (X1[i] - X2[j]) ** 2) / (
+                               2 * self.l**2)))
         return K
 
     def predict(self, X_s):

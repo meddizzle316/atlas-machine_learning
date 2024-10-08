@@ -22,9 +22,10 @@ class GaussianProcess:
         K = np.zeros((m, n))
         for i in range(m):
             for j in range(n):
-                K[i, j] = self.sigma_f**2 * \
-                    np.exp(-(np.linalg.norm(X1[i] - X2[j]) ** 2)
-                           / (2 * self.l**2))
+                K[i, j] = (self.sigma_f ** 2 * np.exp
+                           (-(np.linalg.norm
+                              (X1[i] - X2[j]) ** 2) / (
+                               2 * self.l**2)))
         return K
 
     def predict(self, X_s):
