@@ -13,13 +13,18 @@ def autoencoder(input_dims, filters, latent_dims):
                             activation='relu')(encoder_input)
 
     for index in range(1, len(filters)):
-        x = keras.layers.Conv2D(filters=filters[index], kernel_size=3, padding='same',
-                                activation='relu')(x)
-        x = keras.layers.MaxPooling2D((2,2), padding='same')(x)
-    x = keras.layers.Conv2D(filters=latent_dims[2], kernel_size=3, padding='same',
-                                activation='relu')(x)
-    x = keras.layers.MaxPooling2D((2,2), padding='same')(x)
-
+        x = keras.layers.Conv2D(
+            filters=filters[index],
+            kernel_size=3,
+            padding='same',
+            activation='relu')(x)
+        x = keras.layers.MaxPooling2D((2, 2), padding='same')(x)
+    x = keras.layers.Conv2D(
+        filters=latent_dims[2],
+        kernel_size=3,
+        padding='same',
+        activation='relu')(x)
+    x = keras.layers.MaxPooling2D((2, 2), padding='same')(x)
 
     encoder = keras.models.Model(encoder_input, x)
     print(encoder.summary())

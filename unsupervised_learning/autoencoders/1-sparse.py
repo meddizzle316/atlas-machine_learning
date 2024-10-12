@@ -12,9 +12,10 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
 
     encoder_input = keras.layers.Input(shape=(input_dims,))
     activity_regularizer = keras.regularizers.l1(lambtha)
-    x = keras.layers.Dense(hidden_layers[0], activation='relu',
-                           activity_regularizer=activity_regularizer)(encoder_input)
-
+    x = keras.layers.Dense(
+        hidden_layers[0],
+        activation='relu',
+        activity_regularizer=activity_regularizer)(encoder_input)
 
     for num_nodes in range(1, len(hidden_layers)):
         x = keras.layers.Dense(hidden_layers[num_nodes],
@@ -26,12 +27,13 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
 
     # decoder_input = keras.layers.Input(shape=(latent_dims,))
     encoder_output = encoder.output
-    y = keras.layers.Dense(hidden_layers[-1], activation='relu')(encoder_output)
-    for index in range(len(hidden_layers)-2, -2, -1):
+    y = keras.layers.Dense(
+        hidden_layers[-1], activation='relu')(encoder_output)
+    for index in range(len(hidden_layers) - 2, -2, -1):
         if index == -1:
-          y = keras.layers.Dense(input_dims, activation='sigmoid')(y)
+            y = keras.layers.Dense(input_dims, activation='sigmoid')(y)
         else:
-           y = keras.layers.Dense(hidden_layers[index], activation='relu')(y)
+            y = keras.layers.Dense(hidden_layers[index], activation='relu')(y)
 
     decoder = keras.models.Model(inputs=encoder_output, outputs=y)
     autoencoder = keras.models.Model(inputs=encoder.input, outputs=y)
