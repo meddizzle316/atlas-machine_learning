@@ -15,7 +15,6 @@ class RNNCell:
         self.bh = np.expand_dims(np.zeros((h,)), 0)
         self.by = np.expand_dims(np.zeros((o,)), axis=0)
 
-
     def forward(self, h_prev, x_t):
         """performs the forward pass of the RNN cell
         returns h_next, y"""
