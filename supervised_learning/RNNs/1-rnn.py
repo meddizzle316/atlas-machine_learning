@@ -10,7 +10,6 @@ def rnn(rnn_cell, X, h_0):
     h_prev = h_0.copy()
 
     for i in range(t):
-        print("iteration: i", i)
 
         h_prev, y = rnn_cell.forward(h_prev, X[i])
         if i == 0:
