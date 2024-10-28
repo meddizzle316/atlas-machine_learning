@@ -4,6 +4,7 @@ import numpy as np
 
 
 class RNNCell:
+    """class RNNCELL represents a simple RNN in numpy"""
     def __init__(self, i, h, o):
         """init function for RNN cell"""
         self.i = i
