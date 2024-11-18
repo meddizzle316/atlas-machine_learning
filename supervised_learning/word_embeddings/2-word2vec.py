@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """performs gensin Word2Vec model"""
-from gensim.models import Word2Vec
+import gensim
 
 
 def word2vec_model(sentences, vector_size=100,
@@ -8,7 +8,7 @@ def word2vec_model(sentences, vector_size=100,
                    cbow=True, epochs=5, seed=0,
                    workers=1):
     """makes a word2vec model"""
-    model = Word2Vec(
+    model = gensim.models.Word2Vec(
         sentences=sentences,
         vector_size=vector_size,
         min_count=min_count,
