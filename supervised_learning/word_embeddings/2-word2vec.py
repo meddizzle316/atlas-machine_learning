@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """performs gensin Word2Vec model"""
 from gensim.models import Word2Vec
-import numpy as np
 
 
 def word2vec_model(sentences, vector_size=100,
