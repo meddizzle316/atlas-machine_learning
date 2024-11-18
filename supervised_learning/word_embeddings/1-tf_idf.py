@@ -5,7 +5,7 @@ import numpy as np
 
 
 def tf_idf(sentences, vocab=None):
-    """does tf_idf for each sentence"""
+    """does tf_idf for each sentence with sklearn"""
     vectorizer = TfidfVectorizer(vocabulary=vocab)
     tfidf_matrix = vectorizer.fit_transform(sentences)
     feature_names = vectorizer.get_feature_names_out()
