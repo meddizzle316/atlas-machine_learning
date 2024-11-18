@@ -5,6 +5,7 @@ import numpy as np
 
 
 def bag_of_words(sentences, vocab=None):
+    """basic function that uses sklearn to do bag of words"""
     vectorizer = CountVectorizer(vocabulary=vocab)
     X = vectorizer.fit_transform(sentences)
     feature_names = vectorizer.get_feature_names_out()
