@@ -8,6 +8,8 @@ def word2vec_model(sentences, vector_size=100,
                    cbow=True, epochs=5, seed=0,
                    workers=1):
     """makes a word2vec model"""
+    sg = 1 if not cbow else 0
+
     model = gensim.models.Word2Vec(
         sentences=sentences,
         vector_size=vector_size,
@@ -17,8 +19,9 @@ def word2vec_model(sentences, vector_size=100,
         seed=seed,
         negative=negative,
         epochs=epochs,
-        sg=1 if not cbow else 0
+        sg=sg
     )
 
-    model.train(sentences, total_examples=1, epochs=model.epochs)
+    model.train(sentences, total_examples=1,
+                epochs=model.epochs, compute_loss=True)
     return model
