@@ -15,3 +15,4 @@ def gensim_to_keras(model):
         trainable=True,
     )
 
+    return embedding_layer
