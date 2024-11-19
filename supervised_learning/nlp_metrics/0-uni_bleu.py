@@ -24,4 +24,4 @@ def uni_bleu(references, sentence):
 
     brevity_penalty = math.exp(1 - best_reference_length / len(sentence)) if len(sentence) < best_reference_length else 1
 
-    return (brevity_penalty * precision) * 2
+    return (brevity_penalty * precision)
