@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""gets cumulative blue score from scratch"""
+"""gets cumulative bleu score from scratch"""
 import numpy as np
 from collections import Counter
 import math
