@@ -36,11 +36,18 @@ def ngram_bleu(references, sentence, n):
         overlap = sum((ref_count & sentence_count).values())
         ref_length = len(reference_ngrams)
 
-        if abs(ref_length - len(sentence_ngrams)) < abs(best_reference_length - len(sentence_ngrams)):
+        if abs(
+                ref_length -
+                len(sentence_ngrams)) < abs(
+                best_reference_length -
+                len(sentence_ngrams)):
             best_reference_length = ref_length
             best_overlap = overlap
 
-    precision = best_overlap / len(sentence_ngrams) if len(sentence_ngrams) > 0 else 0.0
-    brevity_penalty = math.exp(1 - best_reference_length / len(sentence_ngrams)) if len(
-        sentence_ngrams) < best_reference_length else 1.0
+    precision = best_overlap / \
+        len(sentence_ngrams) if len(sentence_ngrams) > 0 else 0.0
+    brevity_penalty = (math.exp(
+        1 - best_reference_length /
+        len(sentence_ngrams))
+        if len(sentence_ngrams) < best_reference_length else 1.0)
     return brevity_penalty * precision
