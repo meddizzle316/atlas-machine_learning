@@ -29,7 +29,7 @@ class Dataset:
         # self.tokenizer_pt.add_tokens(pt_list)
         # self.tokenizer_pt.model_max_length = 2 ** 13
 
-        tokenizer_pt = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(pt_texts, target_vocab_size=vocab_size)
-        tokenizer_en = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(en_texts, target_vocab_size=vocab_size)
+        tokenizer_pt = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(pt_list, target_vocab_size=vocab_size)
+        tokenizer_en = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(en_list, target_vocab_size=vocab_size)
 
         return tokenizer_pt, tokenizer_en
