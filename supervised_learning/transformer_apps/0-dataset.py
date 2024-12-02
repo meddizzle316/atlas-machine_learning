@@ -23,10 +23,13 @@ class Dataset:
             pt_list.append(pt.numpy().decode('utf-8'))
             en_list.append(en.numpy().decode('utf-8'))
 
-        self.tokenizer_en.add_tokens(en_list)
-        self.tokenizer_en.model_max_length = 2 ** 13
+        # self.tokenizer_en.add_tokens(en_list)
+        # self.tokenizer_en.model_max_length = 2 ** 13
+        #
+        # self.tokenizer_pt.add_tokens(pt_list)
+        # self.tokenizer_pt.model_max_length = 2 ** 13
 
-        self.tokenizer_pt.add_tokens(pt_list)
-        self.tokenizer_pt.model_max_length = 2 ** 13
+        tokenizer_pt = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(pt_texts, target_vocab_size=vocab_size)
+        tokenizer_en = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(en_texts, target_vocab_size=vocab_size)
 
-        return self.tokenizer_pt, self.tokenizer_en
+        return tokenizer_pt, tokenizer_en
