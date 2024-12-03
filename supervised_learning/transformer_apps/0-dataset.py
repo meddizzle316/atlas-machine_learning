@@ -11,7 +11,7 @@ class Dataset:
         """init func"""
         examples, metadata = tfds.load(
             'ted_hrlr_translate/pt_to_en', with_info=True, as_supervised=True)
-        self.data_train, = examples['train'], examples['validation']
+        self.data_train, self.data_valid = examples['train'], examples['validation']
         self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
             self.data_train)
 
