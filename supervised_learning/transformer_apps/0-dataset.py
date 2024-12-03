@@ -9,9 +9,12 @@ class Dataset:
 
     def __init__(self):
         """init func"""
-        examples, metadata = tfds.load('ted_hrlr_translate/pt_to_en', with_info=True, as_supervised=True)
-        self.data_train, self.data_valid = examples['train'], examples['validation']
-        self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(self.data_train)
+        examples, metadata = tfds.load(
+            'ted_hrlr_translate/pt_to_en', with_info=True, as_supervised=True)
+        self.data_train, = examples['train']
+        self.data_valid = examples['validation']
+        self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
+            self.data_train)
 
     def tokenize_dataset(self, data):
         """tokenizes dataset"""
@@ -29,8 +32,10 @@ class Dataset:
             for text in en_list:
                 yield text
 
-        english_base = transformers.BertTokenizerFast.from_pretrained('bert-base-uncased')
-        portuguese_base = transformers.BertTokenizerFast.from_pretrained('neuralmind/bert-base-portuguese-cased')
+        english_base = transformers.BertTokenizerFast.from_pretrained(
+            'bert-base-uncased')
+        portuguese_base = transformers.BertTokenizerFast.from_pretrained(
+            'neuralmind/bert-base-portuguese-cased')
 
         # transformers.PreTrainedTokenizerFast.train_new_from_iterator()
         vocab_size = 2 ** 13
@@ -45,21 +50,3 @@ class Dataset:
         )
 
         return new_portuguese_tokenizer, new_english_tokenizer
-    # def tokenize_dataset(self, data):
-    #     """tokenizes the data"""
-    #     pt_list = []
-    #     en_list = []
-    #     for pt, en in data:
-    #         pt_list.append(pt.numpy().decode('utf-8'))
-    #         en_list.append(en.numpy().decode('utf-8'))
-    #
-    #     # self.tokenizer_en.add_tokens(en_list)
-    #     # self.tokenizer_en.model_max_length = 2 ** 13
-    #     #
-    #     # self.tokenizer_pt.add_tokens(pt_list)
-    #     # self.tokenizer_pt.model_max_length = 2 ** 13
-    #     vocab_size = 2 ** 13
-    #     tokenizer_pt = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(pt_list, target_vocab_size=vocab_size)
-    #     tokenizer_en = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(en_list, target_vocab_size=vocab_size)
-    #
-    #     return tokenizer_pt, tokenizer_en
