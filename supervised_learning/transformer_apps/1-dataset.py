@@ -39,6 +39,7 @@ class Dataset:
             text_iterator=en_iterator(),
             vocab_size=vocab_size,
         )
+
         new_portuguese_tokenizer = portuguese_base.train_new_from_iterator(
             text_iterator=pt_iterator(),
             vocab_size=vocab_size,
@@ -50,4 +51,5 @@ class Dataset:
         """encodes"""
         pt_encode = self.tokenizer_pt.encode(pt.numpy().decode('utf-8'))
         en_encode = self.tokenizer_en.encode(en.numpy().decode('utf-8'))
+
         return pt_encode, en_encode
