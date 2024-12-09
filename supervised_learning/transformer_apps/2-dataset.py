@@ -10,9 +10,11 @@ class Dataset:
 
     def __init__(self):
         """init func"""
-        examples, metadata = tfds.load('ted_hrlr_translate/pt_to_en', with_info=True, as_supervised=True)
-        self.data_train, self.data_valid = examples['train'], examples['validation']
-        self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(self.data_train)
+        exam, metadata = tfds.load(
+            'ted_hrlr_translate/pt_to_en', with_info=True, as_supervised=True)
+        self.data_train, self.data_valid = exam['train'], exam['validation']
+        self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
+            self.data_train)
         self.data_train = self.data_train.map(self.tf_encode)
         self.data_valid = self.data_valid.map(self.tf_encode)
 
@@ -32,8 +34,10 @@ class Dataset:
             for text in en_list:
                 yield text
 
-        english_base = transformers.BertTokenizerFast.from_pretrained('bert-base-uncased')
-        portuguese_base = transformers.BertTokenizerFast.from_pretrained('neuralmind/bert-base-portuguese-cased')
+        english_base = transformers.BertTokenizerFast.from_pretrained(
+            'bert-base-uncased')
+        portuguese_base = transformers.BertTokenizerFast.from_pretrained(
+            'neuralmind/bert-base-portuguese-cased')
 
         # transformers.PreTrainedTokenizerFast.train_new_from_iterator()
         vocab_size = 2 ** 13
@@ -70,6 +74,3 @@ class Dataset:
         en_encoded.set_shape([None])
 
         return pt_encoded, en_encoded
-
-
-
