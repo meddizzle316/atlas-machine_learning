@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""loads pre made gymnasium environment  """
+"""loads pre made gymnasium environment    """
 import gymnasium as gym
 
 
