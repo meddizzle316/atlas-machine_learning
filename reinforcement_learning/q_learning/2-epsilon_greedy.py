@@ -3,7 +3,7 @@
 import numpy as np
 
 def epsilon_greedy(Q, state, epsilon):
-    """value function"""
+    """doing epsilon greedy to balance exploration and exploitation """
     p = np.random.uniform()
     if p < epsilon:
         action = np.random.randint(4)
