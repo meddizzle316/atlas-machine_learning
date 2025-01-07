@@ -5,7 +5,7 @@ import gymnasium as gym
 
 def load_frozen_lake(desc=None, map_name=None, is_slippery=False):
     """loads pre made gymnasium environment"""
-    env = gym.make("FrozenLake-v1", is_slippery=is_slippery, map_name=map_name)
+    env = gym.make("FrozenLake-v1", is_slippery=is_slippery, map_name=map_name, desc=desc)
     if map_name is None and is_slippery is None:
-        env = gym.make("FrozenLake-v1", map_name='8x8')
+        env = gym.make("FrozenLake-v1", desc=desc)
     return env
