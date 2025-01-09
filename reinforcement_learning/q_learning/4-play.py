@@ -25,5 +25,5 @@ def play(env, Q, max_steps=100):
             new_state, reward, terminated, truncated, _ = env.step(action)
 
             state = new_state
-
+        print(list_of_rendered_states)
         return reward, list_of_rendered_states
