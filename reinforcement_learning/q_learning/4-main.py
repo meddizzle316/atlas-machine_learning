@@ -9,7 +9,7 @@ import numpy as np
 
 np.random.seed(0)
 desc = [['S', 'F', 'F'], ['F', 'H', 'H'], ['F', 'F', 'G']]
-env = load_frozen_lake(desc=desc, render_mode='human')
+env = load_frozen_lake(desc=desc)
 Q = q_init(env)
 
 Q, _ = train(env, Q)
