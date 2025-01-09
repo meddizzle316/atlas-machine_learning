@@ -23,6 +23,7 @@ def play(env, Q, max_steps=100):
         while (not terminated and not truncated):
             action = np.argmax(Q[state, :])
             list_of_rendered_states.append(env.render())
+            print(env.render())
             new_state, reward, terminated, truncated, _ = env.step(action)
 
             state = new_state
