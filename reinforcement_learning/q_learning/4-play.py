@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""plays or 'evaluates' a reinforced model"""
 import numpy as np
 
 
