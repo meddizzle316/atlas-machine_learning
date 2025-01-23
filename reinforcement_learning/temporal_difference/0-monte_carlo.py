@@ -3,60 +3,65 @@
 import numpy as np
 
 
-def monte_carlo(env, V, policy, episodes=5000, max_steps=100, alpha=0.1, gamma=0.99):
+def monte_carlo(env, policy, episodes=5000, max_steps=100, gamma=0.99):
     """
-    Performs Monte Carlo value estimation using incremental (every-visit) updates.
+    Monte Carlo evaluation with sample-average updates (First-Visit MC).
 
-    Parameters
-    ----------
+    Parameters:
+    -----------
     env : gymnasium.Env
         The environment instance.
-    V : np.ndarray of shape (s,)
-        The initial value estimates for each state s.
     policy : callable
-        A function that takes in a state (int) and returns the next action (int) to take.
-    episodes : int, optional (default=5000)
-        Total number of episodes to train over.
-    max_steps : int, optional (default=100)
-        Maximum number of steps per episode.
-    alpha : float, optional (default=0.1)
-        The learning rate.
-    gamma : float, optional (default=0.99)
-        The discount factor.
+        Function mapping state -> action.
+    episodes : int
+        Number of episodes to run.
+    max_steps : int
+        Max steps per episode.
+    gamma : float
+        Discount factor.
 
-    Returns
-    -------
-    V : np.ndarray of shape (s,)
-        The updated value function after all episodes.
+    Returns:
+    --------
+    V : np.ndarray
+        Estimated value function (shape depends on env.observation_space.n).
     """
-    returns = {state: [] for state in range(env.observation_space.n)}
+    # Assume discrete observation space
+    num_states = env.observation_space.n
+
+    # Initialize all values to 0
+    V = np.zeros(num_states)
+
+    # We’ll store all returns for each state to compute the mean
+    returns_per_state = [[] for _ in range(num_states)]
+
     for _ in range(episodes):
-        # Reset the environment to start a new episode
-        state, info = env.reset()
-
-        # Track states and rewards for this episode
+        # Generate one episode
         episode = []
+        state, _ = env.reset()
 
-        # Generate an episode following the given policy
-        while True:
+        for _ in range(max_steps):
             action = policy(state)
             next_state, reward, done, truncated, info = env.step(action)
 
             episode.append((state, reward))
 
-
+            state = next_state
             if done or truncated:
                 break
-            state = next_state
 
-        # At the end of the episode, calculate the return and update V for each state visited
+        # Now compute returns for each state visited in this episode
+        visited_states = set()
         G = 0.0
-        # Traverse backwards to calculate returns
-        for state, reward in reversed(episode):
-            G = gamma * G + reward
-            returns[state].append(G)
-            V[state] = np.mean(returns[state])
+        for t in reversed(range(len(episode))):
+            s_t, r_t = episode[t]
+            G = gamma * G + r_t
 
-    np.set_printoptions(precision=4, suppress=True)
+            # First-visit: only update if it's the *first time* we've seen s_t going backward
+            if s_t not in visited_states:
+                visited_states.add(s_t)
+                returns_per_state[s_t].append(G)
+                # Value estimate is average of all returns for s_t
+                V[s_t] = np.mean(returns_per_state[s_t])
+
     return V
 
