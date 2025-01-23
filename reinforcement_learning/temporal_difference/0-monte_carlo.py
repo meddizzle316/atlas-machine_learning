@@ -4,53 +4,59 @@ import numpy as np
 
 
 def monte_carlo(env, V, policy, episodes=5000, max_steps=100, alpha=0.1, gamma=0.99):
-    """runs monte carlo method"""
+    """
+    Performs Monte Carlo value estimation using incremental (every-visit) updates.
 
-    stateNumber = env.observation_space.n
+    Parameters
+    ----------
+    env : gymnasium.Env
+        The environment instance.
+    V : np.ndarray of shape (s,)
+        The initial value estimates for each state s.
+    policy : callable
+        A function that takes in a state (int) and returns the next action (int) to take.
+    episodes : int, optional (default=5000)
+        Total number of episodes to train over.
+    max_steps : int, optional (default=100)
+        Maximum number of steps per episode.
+    alpha : float, optional (default=0.1)
+        The learning rate.
+    gamma : float, optional (default=0.99)
+        The discount factor.
 
-    sumReturnForEveryState = np.zeros(stateNumber)
-    numberVisitsForEveryState = np.zeros(stateNumber)
-    valueFunctionsEstimate = V
+    Returns
+    -------
+    V : np.ndarray of shape (s,)
+        The updated value function after all episodes.
+    """
+    returns = {state: [] for state in range(env.observation_space.n)}
+    for _ in range(episodes):
+        # Reset the environment to start a new episode
+        state, info = env.reset()
 
-    for episode in range(episodes):
-        visitedStatesInEpisode = []
+        # Track states and rewards for this episode
+        episode = []
 
-        rewardInVisitedState = []
-        (currentState, prob) = env.reset()
-        visitedStatesInEpisode.append(currentState)
-
-        # print(f"simulating episode {episode}")
-
+        # Generate an episode following the given policy
         while True:
-            randomAction = env.action_space.sample()
+            action = policy(state)
+            next_state, reward, done, truncated, info = env.step(action)
 
-            (currentState, currentReward, done, _, _) = env.step(randomAction)
+            episode.append((state, reward))
 
-            rewardInVisitedState.append(currentReward)
 
-            if not done:
-                visitedStatesInEpisode.append(currentState)
-
-            else:
+            if done or truncated:
                 break
+            state = next_state
 
-        numberofVisitedStates = len(visitedStatesInEpisode)
+        # At the end of the episode, calculate the return and update V for each state visited
+        G = 0.0
+        # Traverse backwards to calculate returns
+        for state, reward in reversed(episode):
+            G = gamma * G + reward
+            returns[state].append(G)
+            V[state] = np.mean(returns[state])
 
-        Gt = 0
 
-        for current_episode in range(numberofVisitedStates - 1, -1, -1):
-            stateTmp = visitedStatesInEpisode[current_episode]
-            returnTmp = rewardInVisitedState[current_episode]
+    return V
 
-            Gt = gamma * Gt + returnTmp
-
-            if stateTmp not in visitedStatesInEpisode[0:current_episode]:
-                numberVisitsForEveryState[stateTmp] = numberVisitsForEveryState[stateTmp] + 1
-
-                sumReturnForEveryState[stateTmp] = sumReturnForEveryState[stateTmp] + Gt
-
-    for indexSum in range(stateNumber):
-        if numberVisitsForEveryState[indexSum] != 0:
-            valueFunctionsEstimate[indexSum] = sumReturnForEveryState[indexSum] / numberVisitsForEveryState[indexSum]
-
-    return valueFunctionsEstimate
