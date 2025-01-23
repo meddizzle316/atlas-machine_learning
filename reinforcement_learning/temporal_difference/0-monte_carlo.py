@@ -57,6 +57,6 @@ def monte_carlo(env, V, policy, episodes=5000, max_steps=100, alpha=0.1, gamma=0
             returns[state].append(G)
             V[state] = np.mean(returns[state])
 
-
+    np.set_printoptions(precision=4, suppress=True)
     return V
 
