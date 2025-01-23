@@ -19,7 +19,7 @@ def monte_carlo(env, V, policy, episodes=5000, max_steps=100, alpha=0.1, gamma=0
         (currentState, prob) = env.reset()
         visitedStatesInEpisode.append(currentState)
 
-        print(f"simulating episode {episode}")
+        # print(f"simulating episode {episode}")
 
         while True:
             randomAction = env.action_space.sample()
