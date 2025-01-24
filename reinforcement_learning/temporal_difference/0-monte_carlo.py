@@ -3,9 +3,9 @@
 import numpy as np
 
 
-def monte_carlo(env, policy, episodes=5000, max_steps=100, gamma=0.99):
+def monte_carlo(env, V, policy, episodes=5000, max_steps=100, gamma=0.99, alpha=0.1):
     """
-    Monte Carlo evaluation with sample-average updates (First-Visit MC).
+    Monte Carlo evaluation with First-Visit MC.
 
     Parameters:
     -----------
@@ -25,43 +25,41 @@ def monte_carlo(env, policy, episodes=5000, max_steps=100, gamma=0.99):
     V : np.ndarray
         Estimated value function (shape depends on env.observation_space.n).
     """
-    # Assume discrete observation space
-    num_states = env.observation_space.n
 
-    # Initialize all values to 0
-    V = np.zeros(num_states)
+    for episode in range(episodes):
+        visitedStatesInEpisode = []
 
-    # We’ll store all returns for each state to compute the mean
-    returns_per_state = [[] for _ in range(num_states)]
-
-    for _ in range(episodes):
-        # Generate one episode
-        episode = []
-        state, _ = env.reset()
+        rewardInVisitedState = []
+        currentState, prob = env.reset()
 
         for _ in range(max_steps):
-            action = policy(state)
-            next_state, reward, done, truncated, info = env.step(action)
+            # randomAction = env.action_space.sample()
+            policyAction = policy(currentState)
 
-            episode.append((state, reward))
+            next_state, currentReward, done, _, _ = env.step(policyAction)
 
-            state = next_state
-            if done or truncated:
+            rewardInVisitedState.append(int(currentReward))
+            visitedStatesInEpisode.append(int(currentState))
+
+            currentState = next_state
+            if done:
                 break
 
-        # Now compute returns for each state visited in this episode
-        visited_states = set()
-        G = 0.0
-        for t in reversed(range(len(episode))):
-            s_t, r_t = episode[t]
-            G = gamma * G + r_t
+        rewardInVisitedState = np.array(rewardInVisitedState)
+        visitedStatesInEpisode = np.array(visitedStatesInEpisode)
+        numberofVisitedStates = len(visitedStatesInEpisode)
 
-            # First-visit: only update if it's the *first time* we've seen s_t going backward
-            if s_t not in visited_states:
-                visited_states.add(s_t)
-                returns_per_state[s_t].append(G)
-                # Value estimate is average of all returns for s_t
-                V[s_t] = np.mean(returns_per_state[s_t])
+        Gt = 0.0
+
+        for episode_iter in reversed(range(len(visitedStatesInEpisode))):
+            # print(f"current epsiode {current_episode}")
+
+            stateTmp = visitedStatesInEpisode[episode_iter]
+            returnTmp = rewardInVisitedState[episode_iter]
+
+            Gt = gamma * Gt + returnTmp
+
+            if stateTmp not in visitedStatesInEpisode[:episode]:
+                V[stateTmp] = V[stateTmp] + (alpha * (Gt - V[stateTmp]))
 
     return V
-
