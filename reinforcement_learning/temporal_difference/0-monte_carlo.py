@@ -3,7 +3,14 @@
 import numpy as np
 
 
-def monte_carlo(env, V, policy, episodes=5000, max_steps=100, gamma=0.99, alpha=0.1):
+def monte_carlo(
+        env,
+        V,
+        policy,
+        episodes=5000,
+        max_steps=100,
+        gamma=0.99,
+        alpha=0.1):
     """
     Monte Carlo evaluation with First-Visit MC.
 
