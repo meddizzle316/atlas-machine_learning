@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""performs td algorithm in gymnasium"""
+"""performs td algorithm"""
 import numpy as np
-
 
 def td_lambtha(
         env,
@@ -32,7 +31,7 @@ def td_lambtha(
 
             E[state] += 1  # update Eligibility trace
             V += alpha * t_d * E  # update V using update rule
-            # important to note that here we're updating all V
+            # note that here we're updating all V
             # states, even if we didn't encounter them
             # in that step
 
