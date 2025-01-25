@@ -2,6 +2,7 @@
 """performs td algorithm"""
 import numpy as np
 
+
 def td_lambtha(
         env,
         V,
