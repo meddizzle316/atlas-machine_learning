@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """runs training using monte carlo"""
 import numpy as np
-
+import gymnasium as gym
+policy_gradient = __import__('policy_gradient').policy_gradient
 
 def calculate_rewards_andr(rewards, gamma):
     """calculates discounted rewards"""
