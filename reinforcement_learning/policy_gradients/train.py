@@ -15,7 +15,7 @@ def calculate_rewards_andr(rewards, gamma):
     return DiscountedReturns
 
 
-def train(env, nb_episodes, alpha=0.000045, gamma=0.98, max_steps=500):
+def train(env, nb_episodes, alpha=0.000045, gamma=0.98, max_steps=500, show_result=False):
     """trains a policy using monte carlo method"""
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.n
@@ -28,6 +28,8 @@ def train(env, nb_episodes, alpha=0.000045, gamma=0.98, max_steps=500):
         episode_rewards, gradients = [], []
         state, _ = env.reset()
         for step in range(max_steps):
+            if show_result and (episode % 1000 == 0) and episode > 0:
+                env.render()
             action, gradient = policy_gradient(state, theta)
             next_state, reward, done, _, _ = env.step(action)
 
