@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """runs training using monte carlo"""
 import numpy as np
-import gymnasium as gym
 policy_gradient = __import__('policy_gradient').policy_gradient
+
 
 def calculate_rewards_andr(rewards, gamma):
     """calculates discounted rewards"""
@@ -24,7 +24,7 @@ def train(env, nb_episodes, alpha=0.000045, gamma=0.98, max_steps=500):
     episode_reward = 0.0
 
     for episode in range(nb_episodes):
-        states, actions, rewards,  = [], [], []
+        states, actions, rewards, = [], [], []
         episode_rewards, gradients = [], []
         state, _ = env.reset()
         for step in range(max_steps):
