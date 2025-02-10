@@ -5,4 +5,5 @@ import tensorflow as tf
 
 def crop_image(image, size):
     """crops image in tf"""
-    return tf.image.crop_and_resize(image, crop_size=size)
+    crop_size = (size[0], size[1], image.shape[-1])
+    return tf.image.random_crop(image, size=crop_size)

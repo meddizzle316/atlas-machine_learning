@@ -5,4 +5,4 @@ import tensorflow as tf
 
 def rotate_image(image):
     """rotates an image in tf"""
-    return tf.image.rot90(image, k=3)
+    return tf.image.rot90(image, k=1)
