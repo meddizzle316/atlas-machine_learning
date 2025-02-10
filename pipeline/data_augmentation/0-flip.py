@@ -5,4 +5,4 @@ import tensorflow as tf
 
 def flip_image(image):
     """flips image in tf"""
-    return tf.reverse(image)
+    return tf.image.flip_left_right(image)
