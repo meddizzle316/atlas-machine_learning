@@ -10,8 +10,4 @@ dict = {}
 dict['First'] = first_column
 dict['Second'] = second_column
 
-print(dict)
-
 df= pd.DataFrame(dict, index=row_names)
-
-print(df)
