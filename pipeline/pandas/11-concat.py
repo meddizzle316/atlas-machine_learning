@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """concats a df"""
 import pandas as pd
+index = __import__('10-index').index
 
 
 def concat(df1, df2):
