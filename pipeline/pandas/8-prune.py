@@ -3,4 +3,5 @@
 
 
 def prune(df):
+    """drops nan columns"""
     return df.dropna()

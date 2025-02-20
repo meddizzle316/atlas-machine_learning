@@ -7,4 +7,3 @@ def slice(df):
     df = df[["High", "Low", "Close", "Volume_(BTC)"]]
     df = df.iloc[::60]
     return df
-

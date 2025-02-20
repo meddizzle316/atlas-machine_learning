@@ -3,5 +3,6 @@
 
 
 def index(df):
-    df.set_index("Timestamp",inplace=True)
+    "resets index to timestamp"
+    df.set_index("Timestamp", inplace=True)
     return df
