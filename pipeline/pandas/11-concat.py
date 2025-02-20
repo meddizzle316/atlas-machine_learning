@@ -10,7 +10,7 @@ def concat(df1, df2):
     df2.set_index("Timestamp", inplace=True)
 
     target_index = df2.index.get_loc(1417411920)
-    df2_selected = df2[:target_index]
+    df2_selected = df2[:target_index+1]
 
     df_combine = pd.concat([df2_selected, df1], axis=0, keys=["bitstamp", "coinbase"]) # might be 1?
 
