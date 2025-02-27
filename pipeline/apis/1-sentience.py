@@ -28,11 +28,11 @@ def sentientPlanets():
         if species['homeworld'] is None:
             # print(f"species: {species['name']} has null homeworld, skipping")
             continue
-        if "sentient" in species['classification'] or 'sentient' in species['designation']:
+        if ("sentient" in species['classification']
+                or 'sentient' in species['designation']):
             homeworld_dict = requests.get(species['homeworld']).json()
             homeworld_name = homeworld_dict['name']
 
-            # print(f"species: {species['name']}'s homeworld {homeworld_name} added to sentient list")
             sentient_species.append(homeworld_name)
 
     return sentient_species
