@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
+"""calls github api with given url"""
 import requests
 import sys
 import datetime
 
 
 if __name__ == '__main__':
+    """main function"""
     user_url = None
 
     user_url = "".join(sys.argv[1:])
@@ -14,7 +16,8 @@ if __name__ == '__main__':
     response = requests.get(user_url)
     reset_timestamp = response.headers.get('X-RateLimit-Reset')
 
-    reset_time = datetime.datetime.fromtimestamp(int(reset_timestamp), datetime.UTC)
+    reset_time = datetime.datetime.fromtimestamp(
+        int(reset_timestamp), datetime.UTC)
 
     now = datetime.datetime.now(datetime.timezone.utc)
 
@@ -22,7 +25,7 @@ if __name__ == '__main__':
 
     seconds = time_diff.seconds
 
-    minutes  = divmod(seconds, 60)[0]
+    minutes = divmod(seconds, 60)[0]
 
     if response.status_code == 200:
         pass

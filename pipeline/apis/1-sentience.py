@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
+"""uses SWAG api to planets of sentient beings"""
 import requests
+
 
 def sentientPlanets():
     """returns names of all home planets
