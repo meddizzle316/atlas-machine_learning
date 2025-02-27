@@ -26,7 +26,7 @@ def availableShips(passengerCount):
         try:
             passengers = int(ship['passengers'].replace(",", ""))
             if passengers >= int(passengerCount):
-               starships_with_passengerCount.append(ship['name'])
+                starships_with_passengerCount.append(ship['name'])
         except ValueError:
             continue
 
