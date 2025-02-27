@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""calls github api with given url """
+"""calls github api with given url  """
 import requests
 import sys
 import datetime
