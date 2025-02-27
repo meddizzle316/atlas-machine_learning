@@ -9,7 +9,7 @@ if __name__ == '__main__':
     """main function"""
     user_url = None
 
-    user_url = "".join(sys.argv[1:])
+    user_url = sys.argv[1]
 
     if user_url is None:
         raise ValueError("no user_url")
