@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""gives first upcoming rocket launches"""
+"""gives first upcoming rocket launches """
 import requests
 import datetime
 
