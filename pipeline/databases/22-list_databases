@@ -1,3 +1,2 @@
-#!/usr/bin/bash
-
-show dbs
+// lists all databases
+show databases;
